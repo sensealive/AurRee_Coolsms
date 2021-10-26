@@ -1,0 +1,709 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8">
+
+        <style>
+            
+            #rervedTable	{
+                border:1px solid #000;
+                border-collapse:collapse;
+                font-family:Arial, Sans-Serif;
+                font-size:12px;
+                text-align:right;
+                }
+                
+            #rervedTable th	{
+                border:1px solid #333;
+                padding:3px 6px;
+                background-color: pink;
+                text-align: center;
+                }
+
+            #rervedTable td	{
+                border:1px solid #999;
+                padding:3px 6px;
+                }
+
+            .neg	{
+                color:red;
+            }
+
+            .pos	{
+                color:green;
+            }
+            
+            /* 
+            No
+            Name
+            CpNo
+            Date_n_Time
+            Msg
+            MsgID
+            Reserved 
+            */
+
+            @media (max-width: 768px) {
+                #Reserved, tr td:nth-child(7)		{ display:none; visibility:hidden; }
+                #MsgID, tr td:nth-child(6)		{ display:none; visibility:hidden; }
+            }
+
+            @media (max-width: 420px) {
+                #Msg, tr td:nth-child(5)	{ display:none; visibility:hidden; }
+                /* #yhigh, tr td:nth-child(5)			{ display:none; visibility:hidden; }
+                #ylow, tr td:nth-child(6)			{ display:none; visibility:hidden; }
+                #turnover, tr td:nth-child(9)		{ display:none; visibility:hidden; } */
+            }
+
+            @media (max-width: 320px) {
+                #changepercent, tr td:nth-child(4)	{ display:none; visibility:hidden; }
+                #yhigh, tr td:nth-child(5)			{ display:none; visibility:hidden; }
+                #ylow, tr td:nth-child(6)			{ display:none; visibility:hidden; }
+                #dhigh, tr td:nth-child(7)			{ display:none; visibility:hidden; }
+                #dlow, tr td:nth-child(8)			{ display:none; visibility:hidden; }
+                #turnover, tr td:nth-child(9)		{ display:none; visibility:hidden; }
+            }
+
+
+        </style>
+
+    </head>
+    <body>
+        <h1> AurRee Web Reservation </h1>
+        <label for="year">예약일시:</label>
+        <select class="year"  name="year" id="year">
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+        <option value="2029">2029</option>
+        <option value="2030">2030</option>
+        </select>년
+
+        <!-- <label for="month">month:</label> -->
+        <select name="month" id="month">
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>월
+
+        <!-- <label for="day">day:</label> -->
+        <select name="day" id="day">
+            <option value="01">01</option>
+            <option value="02">02</option>
+            <option value="03">03</option>
+            <option value="04">04</option>
+            <option value="05">05</option>
+            <option value="06">06</option>
+            <option value="07">07</option>
+            <option value="08">08</option>
+            <option value="09">09</option>
+            <!-- <option value="09" selected>09</option> -->
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+            <option value="31">31</option>
+        </select>일
+
+        <!-- <label for="time">time:</label> -->
+        <select name="time" id="time">
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+        </select>시<br>
+
+        이    름: <input type="text" name="name" id="name" value="" style="width:80pt; height:15pt">
+        전화번호: <input type="text" name="cpNo" id="cpNo" value="" style="width:80pt; height:15pt"><br><br>
+
+        <button type="button" onclick="addReservation()" style="width:100pt; height:30pt">예약 추가 & 수정</button>
+        <button type="button" onclick="deleteReservation()" style="width:100pt; height:30pt">삭  제</button><br><br>
+        <button type="button" onclick="prevMonth()" style="width:100pt; height:30pt">Prev</button>
+        <button type="button" onclick="curMonth()" style="width:100pt; height:30pt">Cur</button>
+        <button type="button" onclick="nextMonth()" style="width:100pt; height:30pt">Next</button><br>
+
+        <label style="color: red;">* [v]체크는 삭제용이며, 수정은 이름 및 전화번호 변경만 가능, <br>날짜/시간 변경시 삭제 후 재등록 바랍니다.</label>
+
+        <p id = "write"></p>
+         <!-- <p id="container"></p> -->
+
+        <table id="rervedTable" border="1">
+            <thead>
+                <tr>
+                    <th id="No">No.</th>
+                    <th id="Name">name</th>
+                    <th id="CpNo">CP No.</th>
+                    <th id="Date_n_Time">date&time</th>
+                    <th id="Msg">msg	</th>
+                    <th id="MsgID">msgID</th>
+                    <th id="Reserved">Reserved</th>
+                </tr>
+            </thead>
+            <tbody>                
+            </tbody>
+
+        </table>
+
+         
+        <pre id="coolsms_json"></pre>
+
+
+        <!-- Javascript 구현부 -->
+
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase.js"></script>
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script> -->
+
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+        
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script> -->
+
+        <script>
+
+            const firebaseConfig = {
+                // AurRee
+                apiKey: "AIzaSyDIF8w26-OL7nErNM1OhPqH4Mv3XY_RLfw",
+                authDomain: "fb-coolsms.firebaseapp.com",
+                databaseURL: "https://fb-coolsms.firebaseio.com",
+                projectId: "fb-coolsms",
+                storageBucket: "fb-coolsms.appspot.com",
+                messagingSenderId: "679776800302",
+                appId: "1:679776800302:web:e8127b1fa84e8c933f19bf",
+                measurementId: "G-99LVX419GS"
+
+                // 테스트 용
+                // apiKey: "AIzaSyBvKOVCTBmiBwCfk11ZarfBRsYxSl3s9Co",
+                // authDomain: "fb-coolsms-javascript.firebaseapp.com",
+                // projectId: "fb-coolsms-javascript",
+                // storageBucket: "fb-coolsms-javascript.appspot.com",
+                // messagingSenderId: "1064481409165",
+                // appId: "1:1064481409165:web:bb7203d11c87ff8d9dfac4",
+                // databaseURL: "https://fb-coolsms-javascript-default-rtdb.asia-southeast1.firebasedatabase.app"
+            };  
+                // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            var tbl = document.getElementById("rervedTable");
+            var reserveNo = 1;
+            var reserveCnt = 0;
+            var reservePathArr = [];
+            var monCnt = 0;
+            // var resourceContainer;
+
+            var iYear = new Date().getFullYear();
+            var iMonth = new Date().getMonth(); //0~11, 월을 표시하기위해서는 1을 더해줘야함
+            var iDay = new Date().getDate() -1;  // 1~31 이므로 -1을 해서 select option 태그의 index값으로 만들어줌
+            var iWeekindex = new Date().getDay() // 0~6 -> 0은 일요일
+            var iWeekArr = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+            
+            var curYear = iYear;
+            var curMon = iMonth+1;
+
+            console.log(iYear);
+            console.log(iMonth +1); //0~11, 월을 표시하기위해서는 1을 더해줘야함
+            console.log(iDay);  // 1~31
+            // console.log(new Date().getHours());  // 0~23
+            // console.log(new Date().getMinutes());  // 0~59
+            // console.log(new Date().getSeconds());  // 0~59
+            // console.log(new Date().getMilliseconds()); // 1970년 1월 1일 이후 밀리초
+            // console.log(new Date().getTime());
+            // console.log(iWeekArr[iWeekindex]); // 0~6 -> 0은 일요일
+            
+            // body부분이 로드가 완료된 후 호출함.
+            window.onload = function(){
+
+                // resourceContainer = document.getElementById("container");
+                var mm = String(iMonth+1);
+                if(iMonth+1 < 10)
+                    mm = "0" + mm;
+                fbCurMonPath = "Coolsms/" + iYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                showMonthData(fbCurMonPath)
+
+                // body부분이 로드가 완료된 후 호출함.
+                // document.addEventListener('DOMContentLoaded', scriptInit);
+
+                // function scriptInit(){
+
+                document.getElementById('year').options.selectedIndex = iYear - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                // document.getElementById("year").value="2022";
+                // document.querySelector(".year").selectedIndex = 3;
+                document.getElementById('month').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
+                document.getElementById('day').options.selectedIndex = iDay;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                // document.getElementById('time').options.selectedIndex = 2;                
+            }
+
+            function showMonthData(fbMonPath)
+            {
+                var preObject = document.getElementById("coolsms_json");  // json 데이터를 받을땐 pre 타입으로 선언이 되어있어야 함
+                var dbRef = firebase.database().ref().child(fbCurMonPath); // Coolsms/2021_09
+                // dbRef.on('value',snap => demo.innerHTML = snap.val());
+                dbRef.on('value',snap => {
+                    // preObject.innerText = JSON.stringify(snap.val(),null,3);
+                    preObject = JSON.stringify(snap.val(),null,3);
+                    var obj = JSON.parse(preObject);
+                    // console.log("Json 사이즈:" + Object.keys(obj).length); // 이거 안됨..
+                    reserveCnt = getReserveCnt(obj);
+
+                    // Your web app's Firebase configuration                  
+
+                    // firebase에서 읽기
+                    var write = document.getElementById("write");
+
+                    write.innerHTML ="<h2>" + curYear+"년 " + curMon + "월" +"</H2>";
+
+                    printValues(obj);                    
+
+                    // write.innerHTML += tbl;
+                    // document.write(tbl);  // 이렇게 하면 화면 다지우고 새로씀.
+                    reserveNo = 1;
+                });
+
+                // firebase로부터 데이터 받아오는데 걸리는 시간으로 인해 setOnClick() 은 적용하기 어려움
+                setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
+            }
+            
+            function getReserveCnt(obj){
+                var cnt = 0;
+                for(var i in obj){ // CoolSMS
+                    cnt +=1
+                    // var key = i;
+                    // var val = obj[i];
+                    for(var j in obj[i]){ // 2021_09
+                        // var sub_key1 = j;
+                        // var sub_val1 = obj[i][j];
+                        // for(var k in obj[i][j]){ //2021_0924_1000
+                            // var sub_key2 = k;
+                            // var sub_val2 = obj[i][j][k];
+                            // cnt +=1;
+
+                            // for(var l in obj[i][j][k]){ // cpNo, msgID, name etc etc ..
+                            //     var sub_key3 = l;
+                            //     var sub_val3 = obj[i][j][k][l];
+                            //     document.write(sub_key3 + ": " + sub_val3 + "<br>")
+                            // }
+                        // }
+                    }
+                }
+                console.log("reserveCnt: ", cnt);
+                return cnt;
+            }
+
+            function printValues(obj) {
+
+                for(var k in obj) {
+                    if(obj[k] instanceof Object) {
+                        //keys = Object.keys(obj[k]);
+                        // var strs = keys.split(',');
+                        // document.write(strs);
+                        if(k.length >= 14){ // 2020_0101_1100와 같이 reserveDate Json 타입까지 재귀함수 호출의 경우 출력
+                            
+                            var row = tbl.insertRow(tbl.rows.length); // 하단에 행 추가
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            var cell4 = row.insertCell(3);
+                            var cell5 = row.insertCell(4);
+                            var cell6 = row.insertCell(5);
+                            var cell7 = row.insertCell(6);
+
+                            cell1.addEventListener("click",tdOnClickEvent);
+                            cell2.addEventListener("click",tdOnClickEvent);
+                            cell3.addEventListener("click",tdOnClickEvent);
+                            cell4.addEventListener("click",tdOnClickEvent);
+                            cell5.addEventListener("click",tdOnClickEvent);
+                            cell6.addEventListener("click",tdOnClickEvent);
+                            cell7.addEventListener("click",tdOnClickEvent);
+
+                            cell1.innerHTML = "<input type=" + "'checkbox'" + "onClick="  + "setInputDataByCheckBox(this)" + " name="+"'cb'"+ "id="+'check'+reserveNo +">" +reserveNo;
+                            
+                            // var chk = document.createElement('input');
+                            // chk.setAttribute('type', 'checkbox');       // SPECIFY THE TYPE OF ELEMENT.
+                            // chk.setAttribute('id', 'check'+ reserveNo);     // SET UNIQUE ID.
+                            // chk.setAttribute('value', 'check'+reserveNo);
+                            // chk.setAttribute('name', 'check'+ reserveNo);
+                            // resourceContainer.appendChild(chk);
+
+                            if(reserveNo == 1){
+                                reservePathArr = [];
+                            }
+                            reservePathArr.push(obj[k].reserveDate); // 추후 삭제용으로 추가해둠
+                            reserveNo += 1;
+
+                            cell2.innerHTML = obj[k].name;
+                            cell3.innerHTML = obj[k].cpNo;
+                            
+                            var y = obj[k].reserveDate.substr(0,4); // 년
+                            var m = obj[k].reserveDate.substr(5,2); // 월
+                            var d = obj[k].reserveDate.substr(7,2); // 일
+                            var h = obj[k].reserveDate.substr(10,2); // 시
+
+                            // 특정 날짜의 요일
+                            week_idx = new Date(Number(y),Number(m) - 1,Number(d)).getDay();
+                            week = new Array("일", "월", "화", "수", "목", "금", "토");
+
+                            mdh = m+"월"+ d+"일"+"("+week[week_idx]+") "+ h+"시";
+                            console.log(mdh);
+                            cell4.innerHTML = mdh;                            
+                            cell5.innerHTML = obj[k].text;                            
+                            cell6.innerHTML = obj[k].msgID;                            
+                            cell7.innerHTML = obj[k].reserveDate;                            
+                            
+                            // document.write(obj[k][key].name + "<br>");
+                            // document.write(obj[k][key].cpNo + "<br>");
+                            // document.write(obj[k][key].reserveDate + "<br>");
+                            // document.write(obj[k][key].text + "<br>");
+                            // document.write(obj[k][key].msgID + "<br>");                            
+                        }
+                        printValues(obj[k]);
+                    }
+                    //else {
+                    //     document.write(obj[k] + "<br>");
+                    // };
+                }
+            }
+
+            function tdOnClickEvent(event){
+                var table = document.getElementById("rervedTable");
+                console.log("tdOnClickEvent():", event.path);
+
+                // table > tbody > tr > td 단계임..
+                // var tr = td.parentElement;
+                var tr = event.path[1]; // [td, tr, thead, table#rervedTable, body, html, document, Window]
+
+                name = tr.getElementsByTagName('td')[1].innerHTML;
+                cpNo = tr.getElementsByTagName('td')[2].innerHTML;
+                reserved = tr.getElementsByTagName('td')[6].innerHTML;
+
+                document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                // document.getElementById("year").value="2022";
+                // document.querySelector(".year").selectedIndex = 3;
+                console.log(Number(reserved.substr(5,2)) - 1);
+                console.log(Number(reserved.substr(7,2)) - 1);
+                console.log(Number(reserved.substr(10,2)) - 10);
+
+                document.getElementById('month').options.selectedIndex = Number(reserved.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                // document.getElementById('time').options.selectedIndex = 2;
+                document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                document.getElementById("name").value=name;
+                document.getElementById("cpNo").value=cpNo;        
+            }
+
+            // sleep time expects milliseconds
+            function sleep (time) {
+                return new Promise((resolve) => setTimeout(resolve, time * 1000));
+            }
+
+            function waitForElm(selector) {
+                return new Promise(resolve => {
+                    if (document.querySelector(selector)) {
+                        return resolve(document.querySelector(selector));
+                    }
+
+                    const observer = new MutationObserver(mutations => {
+                        if (document.querySelector(selector)) {
+                            resolve(document.querySelector(selector));
+                            observer.disconnect();
+                        }
+                    });
+
+                    observer.observe(document.body, {
+                        childList: true,
+                        subtree: true
+                    });
+                });
+            }
+            
+            function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeoutInMs) {
+                var startTimeInMs = Date.now();
+                (function loopSearch() {
+                    if (document.querySelector(selector) != null) {
+                        callback();
+                        return;
+                    }
+                    else {
+                        setTimeout(function () {
+                            if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs)
+                                return;
+                            loopSearch();
+                        }, checkFrequencyInMs);
+                    }
+                })();
+            }
+
+            function setInputDataByCheckBox(cb){
+
+                console.log(cb.id);
+                index = cb.id.substr(5,1); // checkbox 번호
+                var tr = document.getElementById("rervedTable").getElementsByTagName("tr")[index];
+
+                name = tr.getElementsByTagName('td')[1].innerHTML;
+                cpNo = tr.getElementsByTagName('td')[2].innerHTML;
+                reserved = tr.getElementsByTagName('td')[6].innerHTML;
+
+                if(cb.checked){
+                    document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                    // document.getElementById("year").value="2022";
+                    // document.querySelector(".year").selectedIndex = 3;
+                    console.log(Number(reserved.substr(5,2)) - 1);
+                    console.log(Number(reserved.substr(7,2)) - 1);
+                    console.log(Number(reserved.substr(10,2)) - 10);
+
+                    document.getElementById('month').options.selectedIndex = Number(reserved.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                    document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                    // document.getElementById('time').options.selectedIndex = 2;
+                    document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                    document.getElementById("name").value=name;
+                    document.getElementById("cpNo").value=cpNo;
+                }
+            }
+
+            function setOnClick(){
+
+                // waitForElm('.some-class').then(elm => console.log(elm.textContent));
+                // waitForElm('#rervedTable').then(elm => console.log(elm.textContent))
+                // while(document.readyState !='complete'){
+                //     console.log("Webpage is being loaded~!")
+                //     sleep(3);
+                // }
+
+                // var checkExist = setInterval(function() {
+                //     var cnt = 0;
+
+                //     if (document.getElementById("check1").length) {
+                //         console.log("Exists!");
+                //         clearInterval(checkExist);       
+                //     }
+                // }, 5000);
+
+                // console.log("wait check1");
+
+                // var isExist = false;
+
+                // waitForElementToDisplay("#check1",function(){
+                //     console.log("wait * check1");
+                //     isExist = true;
+                // },3000,9000);
+                
+                // console.log("wait check2");
+
+                // if(isExist){
+                var table = document.getElementById("rervedTable"), rIndex;
+
+                console.log("setOnClick() table row len: ", table.rows.length);
+
+                if(table.rows.length > 2){
+                    for (let i = 1; i < table.rows.length; i++) {
+
+                        console.log(i);
+
+                        table.rows[i].onclick = function(){
+                            // console.log(i);
+                            rIndex = this.rowIndex;
+                            console.log(rIndex);
+
+                            // var y = obj[k].reserveDate.substr(0,4); // 년
+                            // var m = obj[k].reserveDate.substr(5,2); // 월
+                            // var d = obj[k].reserveDate.substr(7,2); // 일
+                            // var h = obj[k].reserveDate.substr(10,2); // 시
+                            
+                            document.getElementById('year').options.selectedIndex = Number(this.cells[6].innerHTML.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                            // document.getElementById("year").value="2022";
+                            // document.querySelector(".year").selectedIndex = 3;
+                            console.log(Number(this.cells[6].innerHTML.substr(5,2)) - 1);
+                            console.log(Number(this.cells[6].innerHTML.substr(7,2)) - 1);
+                            console.log(Number(this.cells[6].innerHTML.substr(10,2)) - 10);
+                            document.getElementById('month').options.selectedIndex = Number(this.cells[6].innerHTML.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                            document.getElementById('day').options.selectedIndex = Number(this.cells[6].innerHTML.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                            // document.getElementById('time').options.selectedIndex = 2;
+                            document.getElementById("time").options.selectedIndex = Number(this.cells[6].innerHTML.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                            document.getElementById("name").value=this.cells[1].innerHTML;
+                            document.getElementById("cpNo").value=this.cells[2].innerHTML;
+                        };
+                    
+                    }
+                } // if
+                
+            }
+
+            function tableClear(){
+                var table = document.getElementById("rervedTable");
+
+                for (let i= table.rows.length -1; i > 0; i--) {
+                    table.deleteRow(i);
+                    console.log("delete: ", i);
+                }
+            }
+
+            function deleteReservation(){
+
+                // var dbRefObject = firebase.database().ref();
+                var dbRefObject = firebase.database().ref(); //.child("Coolsms/2021_09");
+                var childDelPathArr = [];
+                var delIndex = [];
+
+                for(var i=1; i<=reserveCnt; i++)
+                {
+                    if(document.getElementById('check'+i).checked)
+                    {
+                        // dbRefObject.child("Coolsms/2020_02/2020_0202_1600").set(null);
+                        childPath1 = "Coolsms/"+ reservePathArr[i-1].substr(0,7);
+                        childPath = childPath1 + "/" + reservePathArr[i-1];
+                        console.log("childPath:"+childPath);
+                        console.log("reservePathArr[before del]:"+reservePathArr);
+                        console.log("index:" + (i-1) +"and i:"+i);
+                        delIndex.push(i-1);
+                        
+                        childDelPathArr.push(childPath);
+                        // dbRefObject.child(childPath).set(null); // 건바이건으로 엉뚱한게 지워짐
+                    }
+                }
+                console.log("childDelPathArr.length:" +childDelPathArr.length);
+                console.log("delIndex list", delIndex);
+                for(var i=0; i<childDelPathArr.length; i++){
+                    dbRefObject.child(childDelPathArr[i]).set(null);
+                    // reservePathArr.splice(delIndex[i], 1);
+                }
+                console.log("childDelPathArr[DEL]: " +reservePathArr);
+                tableClear();
+            }
+
+            function addReservation() {
+                // document.getElementById("demo").innerHTML = "예약 완료";
+                alert("예약 완료");
+
+                yyyy = document.getElementById('year').value;
+                dd = document.getElementById('year').value;
+                mm = document.getElementById('month').value;
+                dd = document.getElementById('day').value;
+                tt = document.getElementById('time').value;
+
+                curYear = Number(yyyy);
+                curMon = Number(mm);
+
+                childPath = "Coolsms/"+ yyyy+"_"+mm +"/"+  yyyy+"_"+mm +dd +"_"+tt+"00";
+                console.log(childPath);
+
+                name = document.getElementById("name").value;
+                cpNo = document.getElementById("cpNo").value;
+                reserveDate = yyyy+"_"+mm +dd +"_"+tt+"00";
+                console.log(name );
+                console.log(cpNo);
+                console.log(reserveDate);
+                
+                //firebase에 쓰기
+                var dbRefObject = firebase.database().ref();
+                dbRefObject.child(
+                    childPath).set(
+                        {cpNo: cpNo, msgID: "0", name: name, reserveDate: reserveDate, text: "오르리 네일입니다"}
+                    );
+
+                // # 삭제
+                // dbRefObject.child("Coolsms/2020_02/2020_0202_1600").set(null);
+                tableClear();
+            }
+
+            function prevMonth(){           
+    
+                curMon -= 1;
+                var mm = String(curMon);
+
+                if(curMon == 0){
+                    curYear -= 1;
+                    curMon = 12;
+                    mm = "12"
+                }
+                
+                if(curMon < 10)
+                    mm = "0" + mm;
+                    
+                fbCurMonPath = "Coolsms/" + curYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+
+            function curMonth(){
+                var mm = String(iMonth+1);
+                
+                curYear = iYear;
+                curMon = iMonth+1;
+
+                if(iMonth+1 < 10)
+                    mm = "0" + mm;
+                fbCurMonPath = "Coolsms/" + iYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+
+            function nextMonth(){
+
+                curMon += 1;
+
+                var mm = String(curMon);
+
+                if(curMon == 13){
+                    curYear += 1;
+                    curMon = 1;
+                    mm = "1"
+                }
+                
+                if(curMon < 10)
+                    mm = "0" + mm;
+                    
+                fbCurMonPath = "Coolsms/" + curYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+        </script>
+
+    </body>
+</html>
