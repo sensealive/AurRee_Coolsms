@@ -30,9 +30,13 @@
         <meta content="width=device-width, initial-scale=1" name="viewport" />
 
         <style>
+
+            table{
+                width: 550px
+            }
             
             table, th, td{
-                table-layout: fixed;
+                /* table-layout: fixed; */
                 white-space:nowrap;
                 border: 1px solid #000;
                 border-collapse: collapse;
@@ -49,10 +53,10 @@
             }
 
             .div_memberTable, .div_workTable, .div_memberButtons, th, td{
-                table-layout: fixed;
+                /* table-layout: fixed; */
                 white-space:nowrap;
                 overflow: auto;
-                width: 600px;
+                width: 550px;
             }
 
             /* .workTable{
@@ -90,8 +94,8 @@
 
             .scrolltbody_memberTable, .scrolltbody_workTable{
                 display: block;
-                /* width: 500px; */
-                width: 100%;
+                width: 550px;
+                /* width: 100%; */
                 border-collapse: collapse;
                 /* border: 2px solid #000; */
                 /* white-space: nowrap; */
@@ -100,10 +104,10 @@
             .scrolltbody_memberTable, .scrolltbody_workTable td { border: 1px solid #000; border-top: 0; } */
             .scrolltbody_memberTable, .scrolltbody_workTable {
                 display: block;
-                /* width: 500px;
-                max-width: 500px; */
-                width: 100%;
-                max-width: 100%;
+                width: 550px;
+                max-width: 550px;
+                /* width: 100%;
+                max-width: 100%; */
                 height: 250px;
                 overflow-x:auto;
                 overflow-y: auto;
@@ -634,10 +638,12 @@
             var monCnt = 0;
 
             var isInputMode;
+            var isModifyMode;
             var currentMember;
             var currentWork; 
 
             isInputMode = false;
+            isModifyMode = false;
 
             var iYear = new Date().getFullYear();
             var iMonth = new Date().getMonth(); //0~11, 월을 표시하기위해서는 1을 더해줘야함
@@ -800,6 +806,8 @@
                 document.getElementById("button_del").disabled = true;
                 document.getElementById("button_save").disabled = false;
                 document.getElementById("button_cancel").disabled = false;
+
+                isModifyMode = true;
             }
 
             function getNewMemberNo(){
@@ -857,7 +865,11 @@
             function memberSaveButtonClicked(){
                 console.log("memberSaveButtonClicked()");
                 
-                memberNo = getNewMemberNo()
+                if(isModifyMode)
+                    memberNo = currentMember["memberNo"];
+                else
+                    memberNo = getNewMemberNo();
+
                 document.getElementById("text_memberNo").value = memberNo;
 
                 name = document.getElementById('text_name').value;
@@ -928,6 +940,7 @@
                 setInitMode(0);
 
                 isInputMode = false;
+                isModifyMode = false;
             }
 
             function memberDelButtonClicked(){
@@ -969,6 +982,7 @@
                 setInitMode(0);
 
                 isInputMode = false;
+                isModifyMode = false;
             }
 
             function searchButtonClicked(){
@@ -1279,7 +1293,7 @@
             function memberTable_trOnClickEvent(event, obj){
 
                 // 멤버 입력 모드이면 클릭 이벤트 안먹히도록..
-                if(isInputMode){
+                if(isInputMode || isModifyMode){
                     return;
                 }
 
@@ -1368,7 +1382,7 @@
 
             function workTable_trOnClickEvent(event){
                 // 멤버 입력 모드이면 클릭 이벤트 안먹히도록..
-                if(isInputMode){
+                if(isInputMode || isModifyMode){
                     return;
                 }                
 
