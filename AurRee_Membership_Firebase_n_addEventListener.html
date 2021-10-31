@@ -1,0 +1,1722 @@
+﻿<!-- 
+// firebase 회원정보 Member Data Keys
+
+// memberNo: 
+// name: 
+// memberGrade: 
+// joindedDate: 
+// pic:                 
+// birthDate: 
+// sola_luna:
+// cpNo:                
+// address: 
+
+// 작업내역
+// works : 각 Member에 Sub로 존재함.
+// memberNo
+// workDate
+// workContent
+// workMoney
+// worker
+// workRemark
+// pk
+
+-->
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+        <style>
+            
+            table, th, td{
+                table-layout: fixed;
+                white-space:nowrap;
+                /* border: 1px solid #000; */
+                border-collapse: collapse;
+            }
+
+            th, td{
+                padding: 10px;
+            }
+
+            .div_memberTable, .div_workTable, .div_memberButtons, th, td{
+                table-layout: fixed;
+                white-space:nowrap;
+                overflow: auto;
+                width: 600px;
+            }
+
+            /* .workTable{
+                overflow: auto;
+                table-layout: fixed;
+            } */
+
+            /* .scrolltbody_message {
+                display: block;
+                width: 500px;
+                border-collapse: collapse;
+                border: 2px solid #000; */
+                /* white-space: nowrap; */
+            /* } */
+            /* .scrolltbody_message th { border: 1px solid #000; background: pink; }
+            .scrolltbody_message td { border: 1px solid #000; border-top: 0; }
+            .scrolltbody_message tbody {
+                display: block;
+                width: 500px;
+                max-width: 500px;
+                height: 300px;
+                overflow-x:auto;
+                overflow-y: auto; */
+                /* white-space: nowrap; */
+                /* overflow-wrap: anywhere;
+            } */
+            /* .scrolltbody_message th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 100px; }
+            .scrolltbody_message th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 100px; }
+            .scrolltbody_message th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 100px; }
+            .scrolltbody_message th:last-child { width: 500px; }
+            .scrolltbody_message td:last-child { width: calc( 500px - 19px );  } */
+
+
+            /* scrolltbody_memberTable, .scrolltbody_workTable */
+
+            .scrolltbody_memberTable, .scrolltbody_workTable{
+                display: block;
+                /* width: 500px; */
+                width: 100%;
+                border-collapse: collapse;
+                /* border: 2px solid #000; */
+                /* white-space: nowrap; */
+            }
+            /* .scrolltbody_memberTable, .scrolltbody_workTable th { border: 1px solid #000;}
+            .scrolltbody_memberTable, .scrolltbody_workTable td { border: 1px solid #000; border-top: 0; } */
+            .scrolltbody_memberTable, .scrolltbody_workTable tbody {
+                display: block;
+                /* width: 500px;
+                max-width: 500px; */
+                width: 100%;
+                max-width: 100%;
+                height: 250px;
+                overflow-x:auto;
+                overflow-y: auto;
+                /* white-space: nowrap; */
+                overflow-wrap: anywhere;
+            }
+            /* .scrolltbody_memberTable, .scrolltbody_workTable th:nth-of-type(1) { width: 100px; }
+            .scrolltbody_memberTable .scrolltbody_workTable td:nth-of-type(2) { width: 80px; }
+            .scrolltbody_memberTable .scrolltbody_workTable td:nth-of-type(3) { width: 100px; }
+            .scrolltbody_memberTable, .scrolltbody_workTable th:last-child { width: 300px; }
+            .scrolltbody_memberTable, .scrolltbody_workTable td:last-child { width: calc( 500px - 19px );  } */
+
+            /* #rervedTable	{
+                border:1px solid #000;
+                border-collapse:collapse;
+                font-family:Arial, Sans-Serif;
+                font-size:12px;
+                text-align:right;
+                }
+                
+            #rervedTable th	{
+                border:1px solid #333;
+                padding:3px 6px;
+                background-color: pink;
+                text-align: center;
+                }
+
+            #rervedTable td	{
+                border:1px solid #999;
+                padding:3px 6px;
+                }
+
+            .neg	{
+                color:red;
+            }
+
+            .pos	{
+                color:green;
+            } */
+            
+            /* 
+            No
+            Name
+            CpNo
+            Date_n_Time
+            Msg
+            MsgID
+            Reserved 
+            */
+
+            /* @media (max-width: 768px) {
+                #Reserved, tr td:nth-child(7)		{ display:none; visibility:hidden; }
+                #MsgID, tr td:nth-child(6)		{ display:none; visibility:hidden; }
+            } */
+
+            /* @media (max-width: 420px) {
+                #Msg, tr td:nth-child(5)	{ display:none; visibility:hidden; } */
+                /* #yhigh, tr td:nth-child(5)			{ display:none; visibility:hidden; }
+                #ylow, tr td:nth-child(6)			{ display:none; visibility:hidden; }
+                #turnover, tr td:nth-child(9)		{ display:none; visibility:hidden; } */
+            /* } */
+
+            /* @media (max-width: 320px) {
+                #changepercent, tr td:nth-child(4)	{ display:none; visibility:hidden; }
+                #yhigh, tr td:nth-child(5)			{ display:none; visibility:hidden; }
+                #ylow, tr td:nth-child(6)			{ display:none; visibility:hidden; }
+                #dhigh, tr td:nth-child(7)			{ display:none; visibility:hidden; }
+                #dlow, tr td:nth-child(8)			{ display:none; visibility:hidden; }
+                #turnover, tr td:nth-child(9)		{ display:none; visibility:hidden; }
+            } */
+
+
+        </style>
+
+    </head>
+    <body>
+
+        
+
+        <!-- 회원정보 표시 부분 -->
+
+        <h1> AurRee Membership </h1><br>
+        <p>*표시는 필수 정보입니다.</p>
+
+        <table class="tg" border="1">
+            <thead>
+              <tr>
+                <td class="tg-0lax">*회원번호:</td>
+                <td class="tg-0lax"><input type="text" name="text_memberNo" id="text_memberNo" value="" style="width:80pt; height:15pt"></td>
+                <td class="tg-0lax">*담   &nbsp;&nbsp;&nbsp;&nbsp;당:</td>
+                <td class="tg-0lax"><input type="text" name="text_pic" id="text_pic" value="김유진" style="width:80pt; height:15pt"></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-0lax">*성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명:</td>
+                <td class="tg-0lax"><input type="text" name="text_name" id="text_name" value="" style="width:80pt; height:15pt"></td>
+                <td class="tg-0lax">*생년월일:</td>
+                <td class="tg-0lax">
+
+                    <select class="birthYear"  name="birthYear" id="birthYear">
+                        <option value="1950">1950</option>
+                        <option value="1951">1951</option>
+                        <option value="1952">1952</option>
+                        <option value="1953">1953</option>
+                        <option value="1954">1954</option>
+                        <option value="1955">1955</option>
+                        <option value="1956">1956</option>
+                        <option value="1957">1957</option>
+                        <option value="1958">1958</option>
+                        <option value="1959">1959</option>
+                        <option value="1960">1960</option>
+                        <option value="1961">1961</option>
+                        <option value="1962">1962</option>
+                        <option value="1963">1963</option>
+                        <option value="1964">1964</option>
+                        <option value="1965">1965</option>
+                        <option value="1966">1966</option>
+                        <option value="1967">1967</option>
+                        <option value="1968">1968</option>
+                        <option value="1969">1969</option>
+                        <option value="1970">1970</option>
+                        <option value="1971">1971</option>
+                        <option value="1972">1972</option>
+                        <option value="1973">1973</option>
+                        <option value="1974">1974</option>
+                        <option value="1975">1975</option>
+                        <option value="1976">1976</option>
+                        <option value="1977">1977</option>
+                        <option value="1978">1978</option>
+                        <option value="1979">1979</option>
+                        <option value="1980">1980</option>
+                        <option value="1981">1981</option>
+                        <option value="1982">1982</option>
+                        <option value="1983">1983</option>
+                        <option value="1984">1984</option>
+                        <option value="1985">1985</option>
+                        <option value="1986">1986</option>
+                        <option value="1987">1987</option>
+                        <option value="1988">1988</option>
+                        <option value="1989">1989</option>
+                        <option value="1990">1990</option>
+                        <option value="1991">1991</option>
+                        <option value="1992">1992</option>
+                        <option value="1993">1993</option>
+                        <option value="1994">1994</option>
+                        <option value="1995">1995</option>
+                        <option value="1996">1996</option>
+                        <option value="1997">1997</option>
+                        <option value="1998">1998</option>
+                        <option value="1999">1999</option>
+                        <option value="2000">2000</option>
+                        <option value="2001">2001</option>
+                        <option value="2002">2002</option>
+                        <option value="2003">2003</option>
+                        <option value="2004">2004</option>
+                        <option value="2005">2005</option>
+                        <option value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        </select>
+                        <select name="birthMonth" id="birthMonth">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select name="birthDay" id="birthDay">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <!-- <option value="09" selected>09</option> -->
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">*회원등급:</td>
+                <td class="tg-0lax">
+                    <select class="year"  name="memberGrade" id="memberGrade">
+                        <option value="일반회원">일반회원</option>
+                        <option value="정회원">정회원</option>
+                </td>
+                <td class="tg-0lax">*양력/음력</td>
+                <td class="tg-0lax">
+                    <input type="radio" name="radio_birth" id="radio_birth_sola">양
+                    <input type="radio" name="radio_birth" id="radio_birth_luna">음
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">*가 입 일:</td>
+                <td class="tg-0lax">
+                    <select class="joindedYear"  name="joindedYear" id="joindedYear">
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
+                    </select>
+                    <select name="joindedMonth" id="joindedMonth">
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <select name="joindedDay" id="joindedDay">
+                        <option value="01">01</option>
+                        <option value="02">02</option>
+                        <option value="03">03</option>
+                        <option value="04">04</option>
+                        <option value="05">05</option>
+                        <option value="06">06</option>
+                        <option value="07">07</option>
+                        <option value="08">08</option>
+                        <option value="09">09</option>
+                        <!-- <option value="09" selected>09</option> -->
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                    </select>
+                </td>
+                <td class="tg-0lax">*전화번호</td>
+                <td class="tg-0lax">
+                    <input type="number" name="cpNo1" id="cpNo1" value="010" style="width:40pt; height:15pt">-
+                    <input type="number" name="cpNo2" id="cpNo2" value="" style="width:40pt; height:15pt">-
+                    <input type="number" name="cpNo3" id="cpNo3" value="" style="width:40pt; height:15pt">
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">*주&nbsp;&nbsp;&nbsp;&nbsp;소:</td>
+                <td class="tg-0lax" colspan="3">
+                    <input type="text" name="text_address" id="text_address" value="경북 칠곡군 " style="width:300pt; height:15pt">
+                </td>
+              </tr>
+            </tbody>
+        </table>
+
+
+
+        
+        <!-- <label for="year">예약일시:</label> -->
+       
+
+        <!-- <label for="month">month:</label> -->
+        
+
+        <!-- <label for="day">day:</label> -->
+        
+
+        <!-- <label for="time">time:</label> -->
+
+        <!-- 이    름: <input type="text" name="name" id="name" value="" style="width:80pt; height:15pt">
+        전화번호: <input type="text" name="cpNo" id="cpNo" value="" style="width:80pt; height:15pt"><br><br> -->
+        <br>
+        <div class="div_memberButtons">
+            <button type="button" onclick="memberAddButtonClicked()" id="button_add" style="width:60pt; height:30pt">신규입력</button>
+            <button type="button" onclick="memberModifyButtonClicked()" id="button_modify" style="width:50pt; height:30pt">수정</button>
+            <button type="button" onclick="memberSaveButtonClicked()" id="button_save" style="width:50pt; height:30pt">저장</button>
+            <button type="button" onclick="memberDelButtonClicked()" id="button_del" style="width:50pt; height:30pt">삭제</button>
+            <button type="button" onclick="memberCancelButtonClicked()" id="button_cancel" style="width:50pt; height:30pt">취소</button><br>
+        </div>
+        <!-- <label style="color: red;">* [v]체크는 삭제용이며, 수정은 이름 및 전화번호 변경만 가능, <br>날짜/시간 변경시 삭제 후 재등록 바랍니다.</label> -->
+
+        <br>
+        <select name="searchSelect" id="searchSelect">
+            <option value="전화네자리">전화네자리</option>
+            <option value="이름">이름</option>
+        </select>
+
+        <input type="text" name="text_search" id="text_search" value="" style="width:80pt; height:20pt">
+        <button type="button" onclick="searchButtonClicked()" id="button_search" style="width:40pt; height:20pt">검색</button><br>
+
+        <p id = "write"></p>
+         <!-- <p id="container"></p> -->
+
+         <!-- 멤버 테이블 -->
+
+        <div class="div_memberTable">
+            <table class="scrolltbody_memberTable" id="memberTable">
+                <thead>
+                    <tr>
+                        <th id="memberTbl_memberNo">회원번호</th>
+                        <th id="memberTbl_name">성명</th>
+                        <th id="memberTbl_memberGrade">회원등급</th>
+                        <th id="memberTbl_joinedDate">가입일</th>
+                        <th id="memberTbl_pic">담당</th>
+                        <th id="memberTbl_birthDate">생년월일</th>
+                        <th id="memberTbl_sola_luna">양/음</th>
+                        <th id="memberTbl_cpNo">전화번호</th>
+                        <th id="memberTbl_address">주소</th>
+                    </tr>
+                </thead>
+                <tbody>                
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <!-- 작업내역 부분 -->
+
+        <table class="tg" border="1">
+            <thead>
+              <tr>
+                <td class="tg-0lax">날짜:</td>
+                <td class="tg-0lax">
+                    <select class="workYear"  name="workYear" id="workYear">
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        </select>
+                        <select name="workMonth" id="workMonth">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <select name="workDay" id="workDay">
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <!-- <option value="09" selected>09</option> -->
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+                </td>
+                <td class="tg-0lax">내역:</td>
+                <td class="tg-0lax" colspan="3">
+                    <input type="text" name="text_WorkContent" id="text_WorkContent" value="" style="width:150pt; height:15pt">
+                </td>
+                <td class="tg-0lax" rowspan="2"><input type="button" onclick="workAddButtonClicked();" id="button_workAdd" value="작업추가" style="width: 50pt; height:40pt;">
+                <td class="tg-0lax"><input type="button" onclick="workModifyButtonClicked();" id="button_workModify" value="수정" style="width: 50pt; height:18pt;"></td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">시술자:</td>
+                <td class="tg-0lax">
+                    <input type="text" name="text_Worker" id="text_Worker" value="김유진" style="width:60pt; height:18pt">
+                    <input type="button" onclick="todayButtonClicked();" id="button_today" value="오늘" style="width: 40pt; height:18pt;">
+                </td>
+
+                <td class="tg-0lax">금액:</td>
+                <td class="tg-0lax"><input type="number" name="text_WorkMoney" id="text_WorkMoney" value="" style="width:60px; height:15pt"></td>
+                <td class="tg-0lax">비고</td>
+                <td class="tg-0lax"><input type="text" name="text_WorkRemark" id="text_WorkRemark" value="" style="width:80px; height:15pt"></td>
+                <td class="tg-0lax"><input type="button" onclick="workDeleteButtonClicked()" id="button_workDelete" value="삭제" style="width: 50pt; height:18pt;"></td>
+              </tr>
+            </thead>
+        </table>
+
+        <!-- 작업내역 테이블 -->
+
+        <div class="div_workTable">
+            <table class="scrolltbody_workTable" id="workTable">
+                <thead>
+                    <tr>
+                        <th id="workTbl_memberNo">회원번호</th>
+                        <th id="workTbl_workDate">날짜</th>
+                        <th id="workTbl_workContent">시술 및 판매</th>
+                        <th id="workTbl_workMoney">금액</th>
+                        <th id="workTbl_worker">시술자</th>
+                        <th id="workTbl_workRemark">비고</th>
+                        <th id="workTbl_pk">PK</th>
+                    </tr>
+                </thead>
+                <tbody>                
+                </tbody>
+            </table>
+        </div>
+        <br>
+         
+        <pre id="aurree_json"></pre>
+
+
+        <!-- Javascript 구현부 -->
+
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script> -->
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase.js"></script>
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script> -->
+
+        <!-- <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+        
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script> -->
+
+        <script>
+
+            var _0x3978=["\x41\x49\x7A\x61\x53\x79\x41\x78\x4A\x6A\x72\x69\x58\x51\x31\x61\x73\x4F\x6D\x51\x6C\x51\x37\x4C\x7A\x4D\x7A\x4C\x6B\x4C\x49\x5F\x51\x6B\x56\x4B\x61\x64\x34","\x66\x62\x2D\x61\x75\x72\x72\x65\x65\x6D\x65\x6D\x62\x65\x72\x73\x68\x69\x70\x2E\x66\x69\x72\x65\x62\x61\x73\x65\x61\x70\x70\x2E\x63\x6F\x6D","\x68\x74\x74\x70\x73\x3A\x2F\x2F\x66\x62\x2D\x61\x75\x72\x72\x65\x65\x6D\x65\x6D\x62\x65\x72\x73\x68\x69\x70\x2D\x64\x65\x66\x61\x75\x6C\x74\x2D\x72\x74\x64\x62\x2E\x61\x73\x69\x61\x2D\x73\x6F\x75\x74\x68\x65\x61\x73\x74\x31\x2E\x66\x69\x72\x65\x62\x61\x73\x65\x64\x61\x74\x61\x62\x61\x73\x65\x2E\x61\x70\x70","\x66\x62\x2D\x61\x75\x72\x72\x65\x65\x6D\x65\x6D\x62\x65\x72\x73\x68\x69\x70","\x66\x62\x2D\x61\x75\x72\x72\x65\x65\x6D\x65\x6D\x62\x65\x72\x73\x68\x69\x70\x2E\x61\x70\x70\x73\x70\x6F\x74\x2E\x63\x6F\x6D","\x37\x35\x37\x34\x32\x31\x30\x32\x36\x36\x34\x34","\x31\x3A\x37\x35\x37\x34\x32\x31\x30\x32\x36\x36\x34\x34\x3A\x77\x65\x62\x3A\x66\x64\x39\x38\x36\x37\x36\x61\x34\x31\x33\x35\x61\x34\x33\x34\x34\x63\x36\x63\x63\x31"];const firebaseConfig={apiKey:_0x3978[0],authDomain:_0x3978[1],databaseURL:_0x3978[2],projectId:_0x3978[3],storageBucket:_0x3978[4],messagingSenderId:_0x3978[5],appId:_0x3978[6]}  
+                // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            var g_obj;
+            var memberTable = document.getElementById("memberTable");
+            var workTable = document.getElementById("workTable");
+
+            var reserveNo = 1;
+            var reserveCnt = 0;
+            var reservePathArr = [];
+            var monCnt = 0;
+
+            var isInputMode;
+            var currentMember;
+            var currentWork; 
+
+            isInputMode = false;
+
+            var iYear = new Date().getFullYear();
+            var iMonth = new Date().getMonth(); //0~11, 월을 표시하기위해서는 1을 더해줘야함
+            var iDay = new Date().getDate() -1;  // 1~31 이므로 -1을 해서 select option 태그의 index값으로 만들어줌
+            var iWeekindex = new Date().getDay() // 0~6 -> 0은 일요일
+            var iWeekArr = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            
+            var curYear = iYear;
+            var curMon = iMonth+1;
+
+            console.log(iYear);
+            console.log(iMonth +1); //0~11, 월을 표시하기위해서는 1을 더해줘야함
+            console.log(iDay);  // 1~31
+            // console.log(new Date().getHours());  // 0~23
+            // console.log(new Date().getMinutes());  // 0~59
+            // console.log(new Date().getSeconds());  // 0~59
+            // console.log(new Date().getMilliseconds()); // 1970년 1월 1일 이후 밀리초
+            // console.log(new Date().getTime());
+            // console.log(iWeekArr[iWeekindex]); // 0~6 -> 0은 일요일
+            
+            // body부분이 로드가 완료된 후 호출함.
+            window.onload = function(){
+
+                fbCurPath = "Members";
+                console.log("fbCurPath: " +fbCurPath);
+
+                initData(fbCurPath)
+
+                // body부분이 로드가 완료된 후 호출함.
+                // document.addEventListener('DOMContentLoaded', scriptInit);
+
+                // function scriptInit(){
+
+                document.getElementById('birthYear').options.selectedIndex = iYear - 1979; // 현재 2021년 기준이라서 index는 0부터 2021임
+
+                document.getElementById('joindedYear').options.selectedIndex = iYear - 2019; // 현재 2019년 기준이라서 index는 0부터 2021임
+                // document.getElementById("year").value="2022";
+                // document.querySelector(".year").selectedIndex = 3;
+                document.getElementById('joindedMonth').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
+                document.getElementById('joindedDay').options.selectedIndex = iDay;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                // document.getElementById('time').options.selectedIndex = 2;
+                
+                todayButtonClicked();
+                // document.getElementById('workYear').options.selectedIndex = iYear - 2019; // 현재 2021년 기준이라서 index는 0부터 2021임
+                // document.getElementById('workMonth').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
+                // document.getElementById('workDay').options.selectedIndex = iDay;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+           
+                // 최초 실행시 비활성화 시킬 것들
+                setInitMode(0);
+            }
+            
+            // mode: 0 은 최초 실행시, 저장후, 입력취소 후 : 대부분 input object 비활성화
+            // mode: 1 은 입력 및 수정 모드
+            function setInitMode(mode){
+
+                var mode;
+
+                if(mode == 0) // 비활성화
+                    mode = true;
+                else
+                    mode = false
+
+                document.getElementById("text_memberNo").disabled = true; // 회원번호는 자동생성이므로 항상 비활성
+                document.getElementById("text_pic").disabled = mode;
+                document.getElementById("text_name").disabled = mode;
+                document.getElementById("birthYear").disabled = mode;
+                document.getElementById("birthMonth").disabled = mode;
+                document.getElementById("birthDay").disabled = mode;
+                document.getElementById("memberGrade").disabled = mode;
+                document.getElementById("radio_birth_sola").disabled = mode;
+                document.getElementById("radio_birth_luna").disabled = mode;
+                document.getElementById("joindedYear").disabled = mode;
+                document.getElementById("joindedMonth").disabled = mode;
+                document.getElementById("joindedDay").disabled = mode;
+                document.getElementById("cpNo1").disabled = mode;
+                document.getElementById("cpNo2").disabled = mode;
+                document.getElementById("cpNo3").disabled = mode;
+                document.getElementById("text_address").disabled = mode;
+
+                // 회원정보 버튼들
+                // 신규입력버튼은 반대로 움직임
+                if(mode)
+                    document.getElementById("button_add").disabled = false;
+                else
+                    document.getElementById("button_add").disabled = true;
+
+                document.getElementById("button_modify").disabled = mode;
+                document.getElementById("button_save").disabled = mode;
+                document.getElementById("button_del").disabled = mode;
+                document.getElementById("button_cancel").disabled = mode;
+
+                // 작업내역 버튼들 
+                document.getElementById("button_workAdd").disabled = mode;
+                document.getElementById("button_workModify").disabled = mode;
+                document.getElementById("button_workDelete").disabled = mode;
+            }
+
+            function memberAddButtonClicked(){
+                console.log("memberAddButtonClicked()");
+                setMemberInputode();
+            }
+
+            // 입력모드: 버튼은 저장, 취소 빼곤 모두 비활성화
+            function setMemberInputode()
+            {
+                // 회원정보 버튼들
+                setInitMode(1); // input object들 활성화 뒤 버튼은 저장, 취소 빼곤 모두 비활성화
+                document.getElementById("button_add").disabled = true; // 수정: 비활성
+                document.getElementById("button_modify").disabled = true; // 수정: 비활성
+                document.getElementById("button_save").disabled = false; // 저장: 활성
+                document.getElementById("button_del").disabled = true; // 삭제: 비활성
+                document.getElementById("button_cancel").disabled = false; // 취소: 활성
+
+                // 작업내역 버튼들 
+                document.getElementById("button_workAdd").disabled = true;
+                document.getElementById("button_workModify").disabled = true;
+                document.getElementById("button_workDelete").disabled = true;
+
+                initMemberInfo();
+
+                isInputMode = true;
+            }
+
+            function initMemberInfo(){
+                document.getElementById("text_memberNo").value="";
+                document.getElementById("text_name").value="";
+                document.getElementById("memberGrade").optionsselectedIndex = 0; // 0=일반회원, 1=정회원
+                
+                // 가입일 기본: 오늘
+                document.getElementById('joindedYear').options.selectedIndex = iYear - 2019; // 현재 2019년 기준이라서 index는 0부터 2021임
+                document.getElementById('joindedMonth').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
+                document.getElementById('joindedDay').options.selectedIndex = iDay;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+
+                document.getElementById("text_pic").value ="김유진";
+
+                // 생년월일 기본: 20세 정도로?
+                document.getElementById('birthYear').options.selectedIndex = iYear - 1979; // 현재 2021년 기준이라서 index는 0부터 2021임
+                document.getElementById('birthMonth').options.selectedIndex = 0; // 첫번째 인덱스
+                document.getElementById('birthDay').options.selectedIndex =0; // 첫전째 인덱스
+
+                document.getElementById("radio_birth_sola").checked=true; // 양력에 체크
+                document.getElementById("cpNo1").value = "010";
+                document.getElementById("cpNo2").value = "";
+                document.getElementById("cpNo3").value = "";
+                document.getElementById("text_address").value="경북 칠곡군 ";
+
+                todayButtonClicked();
+            }
+
+            function memberModifyButtonClicked(){
+                console.log("memberModifyButtonClicked()");
+                setMemberModifyMode();
+            }
+
+            // 수정모드
+            function setMemberModifyMode(){
+                // 회원정보 버튼들
+                setInitMode(1); // input object들 활성화 뒤 버튼은 저장, 취소 빼곤 모두 비활성화
+                document.getElementById("button_modify").disabled = true;
+                document.getElementById("button_del").disabled = true;
+                document.getElementById("button_save").disabled = false;
+                document.getElementById("button_cancel").disabled = false;
+            }
+
+            function getNewMemberNo(){
+                console.log("getNewMemberNo()");
+
+                // Object.keys(g_obj) 사용으로 하기 코드 필요없어짐
+                // var table = document.getElementById("memberTable");
+                // // var rows = table.getElementsByTagName("tr");
+                // var memberNos = [];
+
+                // // console.log("trs.length", trs.length);
+
+                // for(var i=1; i<table.rows.length; i++){
+                //     // memberNos[i] = trs[i].getElementsByTagName('td')[0].innerHTML;
+                //     memberNos[i] = table.rows[i].getElementsByTagName('td')[0].innerHTML;
+                //     // console.log("(memberNos[i]", memberNos[i]);
+                // }
+
+                ino = 0;
+
+                var yyyy = new Date().getFullYear();
+            
+                while(true){
+
+                    imm = new Date().getMonth()+1; // 0~11 이므로 +1을 해줌
+                    idd = new Date().getDate(); //  1~31 이므로 -1을 해서 select option 태그의 index값으로 만들어줌
+                    ino += 1;
+
+                    var mm = String(imm);
+                    var dd = String(idd);
+                    var no = String(ino);
+
+                    if(imm+1 < 10)
+                        mm = "0" + String(imm);
+                    if(idd < 10)
+                        dd = "0" + String(idd);
+                    if(ino < 10)
+                        no = "0" + String(ino);
+                    
+                    newMemberNo = String(yyyy).substr(2, 2) +String(mm) +String(dd) + "_" + String(no);
+
+                    // if(newMemberNo in memberNos == false) // 이건 안됨, 숫자는 되고, 문자열은 안되는 듯
+                    // if(memberNos.indexOf(newMemberNo) == -1) // 없으면 -1을 반환 하므로, 이건 됨
+                    // if(memberNos.includes(newMemberNo) == false) // includes는 true, false 리턴, 이것도 됨
+                    // Object.keys(g_obj) 는 MemberNo 전체 배열임, 불필요 코드 삭제를 위해 이 방법 사용
+                    if(Object.keys(g_obj).includes(newMemberNo) == false)
+                    {
+                        console.log("newMemberNo:", newMemberNo)
+                        return newMemberNo;
+                    }
+                }
+
+            }
+
+            function memberSaveButtonClicked(){
+                console.log("memberSaveButtonClicked()");
+                
+                memberNo = getNewMemberNo()
+                document.getElementById("text_memberNo").value = memberNo;
+
+                name = document.getElementById('text_name').value;
+                memberGrade = document.getElementById('memberGrade').value;
+
+                jyyyy = document.getElementById('joindedYear').value;
+                jmm = document.getElementById('joindedMonth').value;
+                jdd = document.getElementById('joindedDay').value;
+                joindedDate = jyyyy + "-" + jmm + "-" + jdd;
+
+                pic = document.getElementById('text_pic').value;
+
+                byyyy = document.getElementById('joindedYear').value;
+                bmm = document.getElementById('joindedMonth').value;
+                bdd = document.getElementById('joindedDay').value;
+                birthDate = byyyy + "-" + bmm + "-" + bdd;
+
+                if(document.getElementById('radio_birth_sola').checked)
+                    sola_luna = "양";
+                else
+                    sola_luna = "음";
+
+                cpNo1 = document.getElementById('cpNo1').value;
+                cpNo2 = document.getElementById('cpNo2').value;
+                cpNo3 = document.getElementById('cpNo3').value;
+
+                cpNo = cpNo1 + "-" + cpNo2 + "-" + cpNo3;
+                address = document.getElementById('text_address').value;
+
+                // 공백체크
+                if(name.replace(" ", "") =="" || 
+                pic.replace(" ", "") == "" || 
+                cpNo1.replace(" ", "") == "" ||
+                cpNo2.replace(" ", "") == "" ||
+                cpNo3.replace(" ", "") == "" ||
+                address.replace(" ", "") == ""){
+                    alert("필수정보는 모두 입력해주세요!");
+                    return;
+                }
+
+                var newMember = { 
+                        "memberNo": memberNo,
+                        "name": name,
+                        "memberGrade": memberGrade,
+                        "joindedDate": joindedDate,
+                        "pic": pic,
+                        "birthDate": birthDate,
+                        "sola_luna": sola_luna,
+                        "cpNo": cpNo,
+                        "address": address
+                };
+
+                // 전체 관리 json object에 추가
+                g_obj[memberNo] = newMember;
+                tableClear("memberTable");
+                tableClear("workTable");
+                // showMemberTable(g_obj);
+
+                console.log(newMember);
+
+                //firebase에 쓰기
+                var dbRefObject = firebase.database().ref();
+
+                var childPath = "Members/" + memberNo;
+
+                dbRefObject.child(childPath).set(newMember);
+
+                setInitMode(0);
+
+                isInputMode = false;
+            }
+
+            function memberDelButtonClicked(){
+                console.log("memberDelButtonClicked()");
+
+                var memberNo = document.getElementById("text_memberNo").value;
+                var memberTable = document.getElementById("memberTable")
+
+                // 테이블에서 삭제
+                for (let i= memberTable.rows.length -1; i > 0; i--) {
+
+                    if(memberTable.rows[i].getElementsByTagName('td')[0].innerHTML == memberNo){
+                        memberTable.deleteRow(i);
+                        // console.log("delete: ", i);
+                        break;
+                    }
+                }
+
+                // 전체 관리 json object에서 삭제
+                tableClear("workTable");
+                tableClear("memberTable");
+                delete g_obj[memberNo];
+                // showMemberTable(g_obj);
+
+                // firebase에서 삭제
+                var dbRefObject = firebase.database().ref(); //.child("Members/211030_01");
+
+                var childPath = "Members/" + memberNo;
+                // 삭제
+                dbRefObject.child(childPath).set(null);
+
+                // 초기화면으로 되돌림
+                setInitMode(0);
+                initMemberInfo();
+            }
+
+            function memberCancelButtonClicked(){
+                console.log("memberCancelButtonClicked()");
+                setInitMode(0);
+
+                isInputMode = false;
+            }
+
+            function searchButtonClicked(){
+                console.log("searchButtonClicked()");
+                
+                var obj = {};
+
+                index = document.getElementById("searchSelect").selectedIndex; // 0:전화네자리, 1: 이름
+                keyWord = document.getElementById("text_search").value;
+
+                tableClear("memberTable");
+                tableClear("workTable");
+
+                if(keyWord == ""){
+                    // 공백이면 전체 멤버 보여줌
+                    showMemberTable(g_obj);
+                    return;
+                }
+
+                for (let i = 0; i < Object.keys(g_obj).length; i++) { // 회원번호 수 만큼
+                    for (var mNo in g_obj) {
+                        if(index == 0){ // 전화번호
+                            if(g_obj[mNo].cpNo.includes(keyWord)){
+                                obj[mNo] = g_obj[mNo];
+                            }
+                        }
+                        else{ // 이름
+                            if(g_obj[mNo].name.includes(keyWord)){
+                                obj[mNo] = g_obj[mNo];
+                            }
+                        }                                              
+                    }                    
+                }
+                showMemberTable(obj);
+            }            
+
+            function todayButtonClicked(){
+                console.log("todayButtonClicked()");
+
+                document.getElementById('workYear').options.selectedIndex = iYear - 2019; // 현재 2021년 기준이라서 index는 0부터 2021임
+                document.getElementById('workMonth').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
+                document.getElementById('workDay').options.selectedIndex = iDay;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+            }
+
+            function getPK(){
+
+                yyyy = new Date().getFullYear();
+                // mm = String(iMonth+1); // 프로그램을 계속 띄워놓고 사용시 iMonth는 과거값이 되버려서 오류가능성있음
+                // dd = String(iDay+1); // 프로그램을 계속 띄워놓고 사용시 iDay는 과거값이 되버려서 오류가능성있음
+                imm = new Date().getMonth()+1; // 0~11 이므로 +1을 해줌
+                idd = new Date().getDate(); //  1~31 이므로 select option 태그의 index값으로 사용시 -1을 해줌
+                
+                iH = new Date().getHours(); // 0~23
+                iM = new Date().getMinutes(); // 0~59
+                iS = new Date().getSeconds(); // 0~59
+
+                var smm = String(imm); // 월
+                var sdd = String(idd); // 일
+                var shh = String(iH); // 시
+                var sim = String(iM); // 분
+                var sss = String(iS); // 초
+
+                if(imm < 10)
+                    smm = "0" + String(imm);
+                if(idd < 10)
+                    sdd = "0" + String(idd);
+                if(iH < 10)
+                    shh = "0" + String(iH);
+                if(iM < 10)
+                    sim = "0" + String(iM);
+                if(iS < 10)
+                    sss = "0" + String(iS);
+
+                pk = String(yyyy)+"_"+smm+"_"+sdd+"_"+shh+"_"+sim+"_"+sss;
+
+                return pk;
+            }
+
+            function workAddButtonClicked(){
+                console.log("workAddButtonClicked()");
+
+                memberNo = document.getElementById("text_memberNo").value;
+
+                y = document.getElementById("workYear").value;
+                m = document.getElementById("workMonth").value;
+                d = document.getElementById("workDay").value;
+                workDate = y+"-"+m+"-"+d;
+
+                workContent = document.getElementById("text_WorkContent").value;
+                workMoney = document.getElementById("text_WorkMoney").value;
+                worker = document.getElementById("text_Worker").value;
+                workRemark = document.getElementById("text_WorkRemark").value;
+
+                // 공백체크
+                if(workContent.replace(" ", "") =="" || 
+                workMoney.replace(" ", "") =="" ||
+                worker.replace(" ", "") == ""){
+                    alert("작업내역 및 금액은 필수 입력데이터 입니다!");
+                    return;
+                }
+
+                var dbRefObject = firebase.database().ref(); //.child("Coolsms/2021_09");                
+
+                pk = getPK();
+
+                var workData = {
+                    // pk: {
+                    "memberNo": memberNo,
+                    "workDate": workDate,
+                    "workContent": workContent,
+                    "workMoney": workMoney,
+                    "worker": worker,
+                    "workRemark": workRemark,
+                    "pk": pk
+                    // }
+                };
+
+                currentWork = workData;
+
+                // g_obj[memberNo]['works'][pk] = workData;  // 첫 작업추가 works가 없는경우, 안됨..
+                g_obj[memberNo]['works'] = {pk: workData};
+
+                // tableClear("workTable");
+                tableClear("memberTable");// firebase에 업데이트가 일어나면 memberTable도 일어나므로.. (개선필요)
+                showWorkTable(memberNo); // 작업테이블에 추가
+
+                var childPath = "Members/" + memberNo +"/works/" + pk;
+
+                console.log("childPath:", childPath);
+                console.log("workData:", workData);
+
+                dbRefObject.child(childPath).set(workData);
+            }
+
+            function workModifyButtonClicked(){
+                console.log("workModifyButtonClicked()");
+
+                memberNo = document.getElementById("text_memberNo").value;
+
+                y = document.getElementById("workYear").value;
+                m = document.getElementById("workMonth").value;
+                d = document.getElementById("workDay").value;
+                workDate = y+"-"+m+"-"+d;
+
+                workContent = document.getElementById("text_WorkContent").value;
+                workMoney = document.getElementById("text_WorkMoney").value;
+                worker = document.getElementById("text_Worker").value;
+                workRemark = document.getElementById("text_WorkRemark").value;
+
+                var dbRefObject = firebase.database().ref(); //.child("Coolsms/2021_09");                
+
+                // 작업추가와 차이점은 pk가 새로 생성되느냐 기존 pk를 쓰느냐 임
+                pk = currentWork["pk"];
+
+                var workData = {
+                    "memberNo": memberNo,
+                    "workDate": workDate,
+                    "workContent": workContent,
+                    "workMoney": workMoney,
+                    "worker": worker,
+                    "workRemark": workRemark,
+                    "pk": pk
+                };
+
+                currentWork = workData;
+
+                g_obj[memberNo]['works'][pk] = workData; // 이것도 작업추가와의 차이점임.
+                // g_obj[memberNo]['works'] = {pk: workData};
+
+                tableClear("workTable");
+                tableClear("memberTable"); // firebase에 업데이트가 일어나면 memberTable도 업데이트가 일어나므로.. (개선필요)
+                showWorkTable(memberNo); // 작업테이블에 추가
+
+                var childPath = "Members/" + memberNo +"/works/" + pk;
+
+                console.log("childPath:", childPath);
+                console.log("workData:", workData);
+
+                dbRefObject.child(childPath).set(workData);
+
+                document.getElementById("button_workModify").disabled = true;
+                document.getElementById("button_workDelete").disabled = true;
+            }
+
+            function workDeleteButtonClicked(){
+                console.log("workDeleteButtonClicked()");
+
+                memberNo = currentWork["memberNo"];
+                pk = currentWork["pk"]
+
+                tableClear("workTable");
+                tableClear("memberTable"); // firebase에 업데이트가 일어나면 memberTable도 일어나므로.. (개선필요)
+                delete g_obj[memberNo]['works'][pk];
+                showWorkTable(memberNo);
+
+                // firebase에서 삭제
+                var dbRefObject = firebase.database().ref(); //.child("Members/211030_01");
+
+                var childPath = "Members/" + memberNo +"/works/"+pk;
+                // 삭제
+                dbRefObject.child(childPath).set(null);
+
+                document.getElementById("button_workModify").disabled = true;
+                document.getElementById("button_workDelete").disabled = true;
+            }
+
+            function initData(fbCurPath){
+
+                var preObject = document.getElementById("aurree_json");  // json 데이터를 받을땐 pre 타입으로 선언이 되어있어야 함
+                var dbRef = firebase.database().ref().child(fbCurPath); // Coolsms/2021_09
+                // dbRef.on('value',snap => demo.innerHTML = snap.val());
+                dbRef.on('value',snap => {
+                    preObject = JSON.stringify(snap.val(),null,3);
+                    g_obj = JSON.parse(preObject);
+                    // console.log("Json 사이즈:" + Object.keys(g_obj).length); // 이거 안됨..
+                   
+                    // firebase에서 읽기
+                    var write = document.getElementById("write");
+                    // write.innerHTML ="<h2>" + curYear+"년 " + curMon + "월" +"</H2>";
+
+                    showMemberTable(g_obj);
+                });
+
+                // firebase로부터 데이터 받아오는데 걸리는 시간으로 인해 setOnClick() 은 적용하기 어려움
+                // setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
+            }
+
+            function showMemberTable(obj){
+                // console.log("showMemberTable()", obj);
+                
+                for(var k in obj){
+                    // console.log("obj[k]:", obj[k]) // object[memberNo] 임..
+                
+                    var row = memberTable.insertRow(memberTable.rows.length); // 하단에 행 추가
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    var cell7 = row.insertCell(6);
+                    var cell8 = row.insertCell(7);
+                    var cell9 = row.insertCell(8);
+
+                    row.addEventListener("click", (evt) => memberTable_trOnClickEvent(evt, obj[k]),);
+
+                    // cell1.addEventListener("click",tdOnClickEvent);
+                    // cell2.addEventListener("click",tdOnClickEvent);
+                    // cell3.addEventListener("click",tdOnClickEvent);
+                    // cell4.addEventListener("click",tdOnClickEvent);
+                    // cell5.addEventListener("click",tdOnClickEvent);
+                    // cell6.addEventListener("click",tdOnClickEvent);
+                    // cell7.addEventListener("click",tdOnClickEvent);
+
+                    cell1.innerHTML = obj[k]["memberNo"];
+                    cell2.innerHTML = obj[k]["name"];
+                    cell3.innerHTML = obj[k]["memberGrade"];
+                    cell4.innerHTML = obj[k]["joindedDate"];
+                    cell5.innerHTML = obj[k]["pic"];
+                    cell6.innerHTML = obj[k]["birthDate"];
+                    cell7.innerHTML = obj[k]["sola_luna"];
+                    cell8.innerHTML = obj[k]["cpNo"];
+                    cell9.innerHTML = obj[k]["address"];
+                }
+            }
+
+            function showWorkTable(memberNo){
+
+                console.log("showWorkTable():memberNo:", memberNo)
+
+                if(g_obj[memberNo]['works']){ // 작업내역이 있으면
+
+                    for(var i in g_obj[memberNo]['works']){ // CoolSMS
+
+                        var row = workTable.insertRow(workTable.rows.length); // 하단에 행 추가
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        var cell6 = row.insertCell(5);
+                        var cell7 = row.insertCell(6);
+
+                        row.addEventListener("click", workTable_trOnClickEvent);
+
+                        // cell1.addEventListener("click",tdOnClickEvent);
+                        // cell2.addEventListener("click",tdOnClickEvent);
+                        // cell3.addEventListener("click",tdOnClickEvent);
+                        // cell4.addEventListener("click",tdOnClickEvent);
+                        // cell5.addEventListener("click",tdOnClickEvent);
+                        // cell6.addEventListener("click",tdOnClickEvent);
+                        // cell7.addEventListener("click",tdOnClickEvent);
+
+                        cell1.innerHTML = g_obj[memberNo]['works'][i]["memberNo"];
+                        cell2.innerHTML = g_obj[memberNo]['works'][i]["workDate"];
+                        cell3.innerHTML = g_obj[memberNo]['works'][i]["workContent"];
+                        cell4.innerHTML = g_obj[memberNo]['works'][i]["workMoney"];
+                        cell5.innerHTML = g_obj[memberNo]['works'][i]["worker"];
+                        if(g_obj[memberNo]['works'][i]["workRemark"])
+                            cell6.innerHTML = g_obj[memberNo]['works'][i]["workRemark"];
+                        else
+                            cell6.innerHTML = "";
+                        cell7.innerHTML = g_obj[memberNo]['works'][i]["pk"];
+                    }
+                }               
+            }
+
+            function memberTable_trOnClickEvent(event, obj){
+
+                // 멤버 입력 모드이면 클릭 이벤트 안먹히도록..
+                if(isInputMode){
+                    return;
+                }
+
+                var table = document.getElementById("memberTable");
+                console.log("memberTable_trOnClickEvent():", event.path);
+
+                // console.log("memberTable_trOnClickEvent(): obj", obj);                
+
+                // table > tbody > tr > td 단계임..
+                // var tr = td.parentElement;
+                var tr = event.path[1]; // [td, tr, thead, table#memberTable, body, html, document, Window]
+
+                memberNo = tr.getElementsByTagName('td')[0].innerHTML;
+                name = tr.getElementsByTagName('td')[1].innerHTML;
+                memberGrade = tr.getElementsByTagName('td')[2].innerHTML;
+                joindedDate = tr.getElementsByTagName('td')[3].innerHTML;
+                pic = tr.getElementsByTagName('td')[4].innerHTML;
+                birthDate = tr.getElementsByTagName('td')[5].innerHTML;
+                sola_luna = tr.getElementsByTagName('td')[6].innerHTML;
+                cpNo = tr.getElementsByTagName('td')[7].innerHTML;
+                address = tr.getElementsByTagName('td')[8].innerHTML;
+
+                document.getElementById('birthYear').options.selectedIndex = Number(birthDate.substr(0,4)) - 1950; // 현재 2021년 기준이라서 index는 0부터 2021임
+                // console.log(Number(birthDate.substr(5,2)) - 1);
+                // console.log(Number(birthDate.substr(7,2)) - 1);
+                // console.log(Number(birthDate.substr(10,2)) - 10);
+                document.getElementById('birthMonth').options.selectedIndex = Number(birthDate.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                document.getElementById('birthDay').options.selectedIndex = Number(birthDate.substr(8,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                
+                document.getElementById("text_memberNo").value=memberNo;
+                document.getElementById("text_name").value=name;
+
+                if(sola_luna == "일반회원"){
+                    document.getElementById("memberGrade").optionsselectedIndex = 0; // 0=일반회원, 1=정회원
+                }
+                else{
+                    document.getElementById("memberGrade").optionsselectedIndex = 1; // 0=일반회원, 1=정회원
+                }
+                
+                document.getElementById('joindedYear').options.selectedIndex = Number(joindedDate.substr(0,4)) - 2019; // 현재 2019년 기준이라서 index는 0부터 2021임
+                document.getElementById('joindedMonth').options.selectedIndex = Number(joindedDate.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                document.getElementById('joindedDay').options.selectedIndex = Number(joindedDate.substr(8,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+
+                document.getElementById("text_pic").value=pic;
+                if(sola_luna == "양"){
+                    document.getElementById("radio_birth_sola").checked=true; // 양력에 체크
+                }
+                else{
+                    document.getElementById("radio_birth_luna").checked=true; // 양력에 체크
+                }
+
+                console.log("cpNo:", cpNo);
+                cpNos = cpNo.split('-');
+                document.getElementById("cpNo1").value = cpNos[0];
+                document.getElementById("cpNo2").value = cpNos[1]; 
+                document.getElementById("cpNo3").value = cpNos[2]; 
+
+                document.getElementById("text_address").value=address;
+
+                initWorkInput();
+                tableClear("workTable");
+                showWorkTable(memberNo); // 데이터 로드 후 멤버의 작업내역 보여주기
+
+                currentMember = obj; // memberTable에서 특정행 선택시
+
+                // 회원정보 버튼
+                document.getElementById("button_modify").disabled = false; // 수정 버튼 활성
+                // document.getElementById("button_save").disabled = false; // 저장 버튼 활성
+                document.getElementById("button_del").disabled = false; // 삭제 버튼 활성
+
+                // 작엽내역 버튼
+                document.getElementById("button_workAdd").disabled = false; // 작업추가 버튼 활성
+                document.getElementById("button_workModify").disabled = true; // 작업수정 버튼 비활성
+                document.getElementById("button_workDelete").disabled = true; // 작업삭제 버튼 비활성
+            }            
+
+            function initWorkInput(){
+
+                todayButtonClicked(); // 오늘로 셋팅
+                
+                document.getElementById("text_WorkContent").value = "";
+                document.getElementById("text_Worker").value = "김유진";
+                document.getElementById("text_WorkMoney").value ="";
+                document.getElementById("text_WorkRemark").value = "";
+            }
+
+            function workTable_trOnClickEvent(event){
+                // 멤버 입력 모드이면 클릭 이벤트 안먹히도록..
+                if(isInputMode){
+                    return;
+                }                
+
+                // table > tbody > tr > td 단계임..
+                // var tr = td.parentElement;
+                var tr = event.path[1]; // [td, tr, thead, table#workTable, body, html, document, Window]
+
+                memberNo = tr.getElementsByTagName('td')[0].innerHTML;
+                workDate = tr.getElementsByTagName('td')[1].innerHTML;
+                workContent = tr.getElementsByTagName('td')[2].innerHTML;
+                workMoney = tr.getElementsByTagName('td')[3].innerHTML;
+                worker = tr.getElementsByTagName('td')[4].innerHTML;
+                workRemark = tr.getElementsByTagName('td')[5].innerHTML;
+                pk = tr.getElementsByTagName('td')[6].innerHTML;
+
+                var workData = {
+                    "memberNo" : memberNo,
+                    "workDate" : workDate, 
+                    "workContent" : workContent, 
+                    "workMoney" : workMoney, 
+                    "worker" : worker, 
+                    "workRemark" : workRemark, 
+                    "pk" : pk
+                }
+
+                currentWork = workData;
+                
+                document.getElementById('workYear').options.selectedIndex = Number(workDate.substr(0,4)) - 2019; // 현재 2021년 기준이라서 index는 0부터 2021임
+                console.log(Number(workDate.substr(5,2)) - 1);
+                console.log(Number(workDate.substr(7,2)) - 1);
+                console.log(Number(workDate.substr(10,2)) - 10);
+
+                document.getElementById('workMonth').options.selectedIndex = Number(workDate.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                document.getElementById('workDay').options.selectedIndex = Number(workDate.substr(8,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                
+                document.getElementById("text_WorkContent").value = workContent;
+                document.getElementById("text_Worker").value = worker;
+                document.getElementById("text_WorkMoney").value = workMoney;
+                document.getElementById("text_WorkRemark").value = workRemark;
+
+                if(workRemark=="")
+                    document.getElementById("text_WorkRemark").value = "";
+
+                document.getElementById("button_workModify").disabled = false; // 작업수정 버튼 활성
+                document.getElementById("button_workDelete").disabled = false; // 작업삭제 버튼 활성
+            }
+
+            function tableClear(tableClassName){
+                var table = document.getElementById(tableClassName);
+
+                for (let i= table.rows.length -1; i > 0; i--) {
+                    table.deleteRow(i);
+                    // console.log("delete: ", i);
+                }
+            }
+            
+            // 추후 사용??
+            function tdOnClickEvent(event){
+                var table = document.getElementById("memberTable");
+                console.log("tdOnClickEvent():", event.path);
+
+                // table > tbody > tr > td 단계임..
+                // var tr = td.parentElement;
+                var tr = event.path[1]; // [td, tr, thead, table#rervedTable, body, html, document, Window]
+
+                name = tr.getElementsByTagName('td')[1].innerHTML;
+                cpNo = tr.getElementsByTagName('td')[2].innerHTML;
+                reserved = tr.getElementsByTagName('td')[6].innerHTML;
+
+                document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                // document.getElementById("year").value="2022";
+                // document.querySelector(".year").selectedIndex = 3;
+                console.log(Number(reserved.substr(5,2)) - 1);
+                console.log(Number(reserved.substr(7,2)) - 1);
+                console.log(Number(reserved.substr(10,2)) - 10);
+
+                document.getElementById('month').options.selectedIndex = Number(reserved.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                // document.getElementById('time').options.selectedIndex = 2;
+                document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                document.getElementById("name").value=name;
+                document.getElementById("cpNo").value=cpNo;        
+            }
+
+            // sleep time expects milliseconds
+            function sleep (time) {
+                return new Promise((resolve) => setTimeout(resolve, time * 1000));
+            }
+
+            function waitForElm(selector) {
+                return new Promise(resolve => {
+                    if (document.querySelector(selector)) {
+                        return resolve(document.querySelector(selector));
+                    }
+
+                    const observer = new MutationObserver(mutations => {
+                        if (document.querySelector(selector)) {
+                            resolve(document.querySelector(selector));
+                            observer.disconnect();
+                        }
+                    });
+
+                    observer.observe(document.body, {
+                        childList: true,
+                        subtree: true
+                    });
+                });
+            }
+            
+            function waitForElementToDisplay(selector, callback, checkFrequencyInMs, timeoutInMs) {
+                var startTimeInMs = Date.now();
+                (function loopSearch() {
+                    if (document.querySelector(selector) != null) {
+                        callback();
+                        return;
+                    }
+                    else {
+                        setTimeout(function () {
+                            if (timeoutInMs && Date.now() - startTimeInMs > timeoutInMs)
+                                return;
+                            loopSearch();
+                        }, checkFrequencyInMs);
+                    }
+                })();
+            }
+
+            function setInputDataByCheckBox(cb){
+
+                console.log(cb.id);
+                index = cb.id.substr(5,1); // checkbox 번호
+                var tr = document.getElementById("rervedTable").getElementsByTagName("tr")[index];
+
+                name = tr.getElementsByTagName('td')[1].innerHTML;
+                cpNo = tr.getElementsByTagName('td')[2].innerHTML;
+                reserved = tr.getElementsByTagName('td')[6].innerHTML;
+
+                if(cb.checked){
+                    document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                    // document.getElementById("year").value="2022";
+                    // document.querySelector(".year").selectedIndex = 3;
+                    console.log(Number(reserved.substr(5,2)) - 1);
+                    console.log(Number(reserved.substr(7,2)) - 1);
+                    console.log(Number(reserved.substr(10,2)) - 10);
+
+                    document.getElementById('month').options.selectedIndex = Number(reserved.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                    document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                    // document.getElementById('time').options.selectedIndex = 2;
+                    document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                    document.getElementById("name").value=name;
+                    document.getElementById("cpNo").value=cpNo;
+                }
+            }
+
+            function setOnClickforMemberTable(){
+
+                // waitForElm('.some-class').then(elm => console.log(elm.textContent));
+                // waitForElm('#rervedTable').then(elm => console.log(elm.textContent))
+                // while(document.readyState !='complete'){
+                //     console.log("Webpage is being loaded~!")
+                //     sleep(3);
+                // }
+
+                // var checkExist = setInterval(function() {
+                //     var cnt = 0;
+
+                //     if (document.getElementById("check1").length) {
+                //         console.log("Exists!");
+                //         clearInterval(checkExist);       
+                //     }
+                // }, 5000);
+
+                // console.log("wait check1");
+
+                // var isExist = false;
+
+                // waitForElementToDisplay("#check1",function(){
+                //     console.log("wait * check1");
+                //     isExist = true;
+                // },3000,9000);
+                
+                // console.log("wait check2");
+
+                // if(isExist){
+                var table = document.getElementById("rervedTable"), rIndex;
+
+                console.log("setOnClick() table row len: ", table.rows.length);
+
+                if(table.rows.length > 2){
+                    for (let i = 1; i < table.rows.length; i++) {
+
+                        console.log(i);
+
+                        table.rows[i].onclick = function(){
+                            // console.log(i);
+                            rIndex = this.rowIndex;
+                            console.log(rIndex);
+
+                            // var y = obj[k].reserveDate.substr(0,4); // 년
+                            // var m = obj[k].reserveDate.substr(5,2); // 월
+                            // var d = obj[k].reserveDate.substr(7,2); // 일
+                            // var h = obj[k].reserveDate.substr(10,2); // 시
+                            
+                            document.getElementById('year').options.selectedIndex = Number(this.cells[6].innerHTML.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                            // document.getElementById("year").value="2022";
+                            // document.querySelector(".year").selectedIndex = 3;
+                            console.log(Number(this.cells[6].innerHTML.substr(5,2)) - 1);
+                            console.log(Number(this.cells[6].innerHTML.substr(7,2)) - 1);
+                            console.log(Number(this.cells[6].innerHTML.substr(10,2)) - 10);
+                            document.getElementById('month').options.selectedIndex = Number(this.cells[6].innerHTML.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
+                            document.getElementById('day').options.selectedIndex = Number(this.cells[6].innerHTML.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
+                            // document.getElementById('time').options.selectedIndex = 2;
+                            document.getElementById("time").options.selectedIndex = Number(this.cells[6].innerHTML.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                            document.getElementById("name").value=this.cells[1].innerHTML;
+                            document.getElementById("cpNo").value=this.cells[2].innerHTML;
+                        };
+                    
+                    }
+                } // if
+                
+            }            
+
+            function deleteReservation(){
+
+                // var dbRefObject = firebase.database().ref();
+                var dbRefObject = firebase.database().ref(); //.child("Coolsms/2021_09");
+                var childDelPathArr = [];
+                var delIndex = [];
+
+                for(var i=1; i<=reserveCnt; i++)
+                {
+                    if(document.getElementById('check'+i).checked)
+                    {
+                        // dbRefObject.child("Coolsms/2020_02/2020_0202_1600").set(null);
+                        childPath1 = "Coolsms/"+ reservePathArr[i-1].substr(0,7);
+                        childPath = childPath1 + "/" + reservePathArr[i-1];
+                        console.log("childPath:"+childPath);
+                        console.log("reservePathArr[before del]:"+reservePathArr);
+                        console.log("index:" + (i-1) +"and i:"+i);
+                        delIndex.push(i-1);
+                        
+                        childDelPathArr.push(childPath);
+                        // dbRefObject.child(childPath).set(null); // 건바이건으로 엉뚱한게 지워짐
+                    }
+                }
+                console.log("childDelPathArr.length:" +childDelPathArr.length);
+                console.log("delIndex list", delIndex);
+                for(var i=0; i<childDelPathArr.length; i++){
+                    dbRefObject.child(childDelPathArr[i]).set(null);
+                    // reservePathArr.splice(delIndex[i], 1);
+                }
+                console.log("childDelPathArr[DEL]: " +reservePathArr);
+                tableClear();
+            }
+
+            function addReservation() {
+                // document.getElementById("demo").innerHTML = "예약 완료";
+                alert("예약 완료");
+
+                yyyy = document.getElementById('year').value;
+                dd = document.getElementById('year').value;
+                mm = document.getElementById('month').value;
+                dd = document.getElementById('day').value;
+                tt = document.getElementById('time').value;
+
+                curYear = Number(yyyy);
+                curMon = Number(mm);
+
+                childPath = "Coolsms/"+ yyyy+"_"+mm +"/"+  yyyy+"_"+mm +dd +"_"+tt+"00";
+                console.log(childPath);
+
+                name = document.getElementById("name").value;
+                cpNo = document.getElementById("cpNo").value;
+                reserveDate = yyyy+"_"+mm +dd +"_"+tt+"00";
+                console.log(name );
+                console.log(cpNo);
+                console.log(reserveDate);
+                
+                //firebase에 쓰기
+                var dbRefObject = firebase.database().ref();
+                dbRefObject.child(
+                    childPath).set(
+                        {cpNo: cpNo, msgID: "0", name: name, reserveDate: reserveDate, text: "오르리 네일입니다"}
+                    );
+
+                // # 삭제
+                // dbRefObject.child("Coolsms/2020_02/2020_0202_1600").set(null);
+                tableClear();
+            }
+
+            function prevMonth(){           
+    
+                curMon -= 1;
+                var mm = String(curMon);
+
+                if(curMon == 0){
+                    curYear -= 1;
+                    curMon = 12;
+                    mm = "12"
+                }
+                
+                if(curMon < 10)
+                    mm = "0" + mm;
+                    
+                fbCurMonPath = "Coolsms/" + curYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+
+            function curMonth(){
+                var mm = String(iMonth+1);
+                
+                curYear = iYear;
+                curMon = iMonth+1;
+
+                if(iMonth+1 < 10)
+                    mm = "0" + mm;
+                fbCurMonPath = "Coolsms/" + iYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+
+            function nextMonth(){
+
+                curMon += 1;
+
+                var mm = String(curMon);
+
+                if(curMon == 13){
+                    curYear += 1;
+                    curMon = 1;
+                    mm = "1"
+                }
+                
+                if(curMon < 10)
+                    mm = "0" + mm;
+                    
+                fbCurMonPath = "Coolsms/" + curYear +"_"+ mm;
+                console.log("fbCurMonPath: " +fbCurMonPath);
+
+                tableClear();
+
+                showMonthData(fbCurMonPath);
+            }
+        </script>
+
+    </body>
+</html>
