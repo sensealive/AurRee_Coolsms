@@ -34,8 +34,14 @@
             table, th, td{
                 table-layout: fixed;
                 white-space:nowrap;
-                /* border: 1px solid #000; */
+                border: 1px solid #000;
                 border-collapse: collapse;
+                /* position: relative; */
+            }
+
+            th{
+                background-color: pink;
+                position:sticky;
             }
 
             th, td{
@@ -92,7 +98,7 @@
             }
             /* .scrolltbody_memberTable, .scrolltbody_workTable th { border: 1px solid #000;}
             .scrolltbody_memberTable, .scrolltbody_workTable td { border: 1px solid #000; border-top: 0; } */
-            .scrolltbody_memberTable, .scrolltbody_workTable tbody {
+            .scrolltbody_memberTable, .scrolltbody_workTable {
                 display: block;
                 /* width: 500px;
                 max-width: 500px; */
@@ -104,6 +110,12 @@
                 /* white-space: nowrap; */
                 overflow-wrap: anywhere;
             }
+
+            .scrolltbody_memberTable th, .scrolltbody_workTable th{
+                position: sticky;
+                top: 0;
+            }
+
             /* .scrolltbody_memberTable, .scrolltbody_workTable th:nth-of-type(1) { width: 100px; }
             .scrolltbody_memberTable .scrolltbody_workTable td:nth-of-type(2) { width: 80px; }
             .scrolltbody_memberTable .scrolltbody_workTable td:nth-of-type(3) { width: 100px; }
@@ -137,16 +149,7 @@
             .pos	{
                 color:green;
             } */
-            
-            /* 
-            No
-            Name
-            CpNo
-            Date_n_Time
-            Msg
-            MsgID
-            Reserved 
-            */
+
 
             /* @media (max-width: 768px) {
                 #Reserved, tr td:nth-child(7)		{ display:none; visibility:hidden; }
@@ -171,7 +174,6 @@
 
 
         </style>
-
     </head>
     <body>
 
