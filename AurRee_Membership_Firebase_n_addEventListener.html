@@ -30,11 +30,6 @@
         <meta content="width=device-width, initial-scale=1" name="viewport" />
 
         <style>
-            
-            body {
-                width:100vw;
-                height:100vh;
-            }
 
             table{
                 width: 700px
@@ -183,10 +178,11 @@
 
 
         </style>
-
     </head>
-    <body">
+    <body>
+
         
+
         <!-- 회원정보 표시 부분 -->
 
         <h1> AurRee Membership </h1><br>
@@ -611,6 +607,7 @@
             </table>
         </div>
         <br>
+         
         <pre id="aurree_json"></pre>
 
 
@@ -672,8 +669,6 @@
 
                 fbCurPath = "Members";
                 console.log("fbCurPath: " +fbCurPath);
-                
-                window.resizeTo(800,800); // 
 
                 initData(fbCurPath)
 
@@ -698,7 +693,22 @@
            
                 // 최초 실행시 비활성화 시킬 것들
                 setInitMode(0);
+
+                window.addEventListener('resize', function(){ 
+                    resizeApply();
+                });
             }
+
+            function resizeApply() { 
+                var minWidth = 1200; 
+                var body = document.getElementsByTagName('body')[0]; 
+                
+                if (window.innerWidth < minWidth)
+                    body.style.zoom = (window.innerWidth / minWidth); 
+                else 
+                    body.style.zoom = 1;
+            }
+
             
             // mode: 0 은 최초 실행시, 저장후, 입력취소 후 : 대부분 input object 비활성화
             // mode: 1 은 입력 및 수정 모드
