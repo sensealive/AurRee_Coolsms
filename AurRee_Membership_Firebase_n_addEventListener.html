@@ -566,9 +566,9 @@
                 </td>
                 <td class="tg-0lax">내역:</td>
                 <td class="tg-0lax" colspan="3">
-                    <input type="text" name="text_WorkContent" id="text_WorkContent" value="" style="width:120pt; height:15pt">
+                    <input type="text" name="text_WorkContent" id="text_WorkContent" value="" style="width:150pt; height:15pt">
                 </td>
-                <td class="tg-0lax" rowspan="2"><input type="button" onclick="workAddButtonClicked();" id="button_workAdd" value="작업추가" style="width: 50pt; height:40pt;">
+                <td class="tg-0lax" rowspan="2"><input type="button" onclick="workAddButtonClicked();" id="button_workAdd" value="작업추가" style="width: 50pt; height:40pt; word-wrap:break-word">
                 <td class="tg-0lax"><input type="button" onclick="workModifyButtonClicked();" id="button_workModify" value="수정" style="width: 40pt; height:18pt;"></td>
               </tr>
               <tr>
@@ -694,11 +694,13 @@
                 // 최초 실행시 비활성화 시킬 것들
                 setInitMode(0);
 
-                window.addEventListener('resize', function(){ 
-                    resizeApply();
-                });
+                // 화면 크기에따라 자동 Zoom in / out
+                // window.addEventListener('resize', function(){ 
+                //     resizeApply();
+                // });
             }
 
+            // 화면 크기에따라 자동 Zoom in / out
             function resizeApply() { 
                 var minWidth = 1200; 
                 var body = document.getElementsByTagName('body')[0]; 
