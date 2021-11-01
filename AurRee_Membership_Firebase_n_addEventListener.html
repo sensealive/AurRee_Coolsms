@@ -1203,6 +1203,8 @@
                     var write = document.getElementById("write");
                     // write.innerHTML ="<h2>" + curYear+"년 " + curMon + "월" +"</H2>";
 
+                    tableClear("workTable");
+                    tableClear("memberTable"); // firebase에 업데이트가 일어나면 memberTable도 일어나므로.. (개선필요)
                     showMemberTable(g_obj);
                 });
 
