@@ -1167,6 +1167,12 @@
                     "workRemark": workRemark,
                     "pk": pk
                 };
+                
+                // 변경사항이 없으면 바로 return
+                if(JSON.stringify(currentWork) == JSON.stringify(workData))
+                {
+                    return;
+                }
 
                 currentWork = workData;
 
