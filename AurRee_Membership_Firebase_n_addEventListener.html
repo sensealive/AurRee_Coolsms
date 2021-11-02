@@ -938,6 +938,8 @@
                         "cpNo": cpNo,
                         "address": address
                 };
+                
+                currentMember = newMember;
 
                 // 전체 관리 json object에 추가
                 g_obj[memberNo] = newMember;
@@ -958,6 +960,8 @@
 
                 isInputMode = false;
                 isModifyMode = false;
+                
+                document.getElementById("button_workAdd").disabled = false; // 작업추가 버튼 활성
             }
 
             function memberDelButtonClicked(){
