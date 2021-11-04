@@ -60,9 +60,9 @@
                 /* font: 13px/1.4 Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif; */
             }
 
-            label {
+            /* label {
                 display: block;
-            }
+            } */
             .calendar {
                 border: 1px solid #c4c4c4;
                 border-radius: 5px;
@@ -101,7 +101,7 @@
     </head>
     <body>
         <h1> AurRee Reservation </h1>
-        <label for="year">예약일시:</label>
+        <label for="year">예약:</label>
         <select class="year"  name="year" id="year">
         <option value="2021">2021</option>
         <option value="2022">2022</option>
@@ -181,14 +181,14 @@
             <option value="19">19</option>
         </select>시<br><p>
 
-        이    름: <input type="text" name="name" id="name" value="" style="width:70pt; height:15pt">
+        이    름: <input type="text" name="name" id="name" value="" style="width:65pt; height:15pt">
         전    화: <input type="text" name="cpNo" id="cpNo" value="" style="width:80pt; height:15pt"><br><br>
 
         <button type="button" onclick="addReservation()" style="width:100pt; height:30pt">예약 추가 & 수정</button>
         <button type="button" onclick="deleteReservation()" style="width:80pt; height:30pt">삭  제</button><br><br>
-        <button type="button" onclick="prevMonth()" style="width:80pt; height:30pt">Prev</button>
-        <button type="button" onclick="curMonth()" style="width:80pt; height:30pt">Cur</button>
-        <button type="button" onclick="nextMonth()" style="width:80pt; height:30pt">Next</button><br>
+        <button type="button" onclick="prevMonth()" style="width:70pt; height:30pt">Prev</button>
+        <button type="button" onclick="curMonth()" style="width:70pt; height:30pt">Cur</button>
+        <button type="button" onclick="nextMonth()" style="width:70pt; height:30pt">Next</button><br>
 
         <label style="color: red; font-size: x-small;">* [v]체크는 삭제용이며, 수정은 이름 및 전화번호 변경만 가능, <br>날짜/시간 변경시 삭제 후 재등록 바랍니다.</label>
 
