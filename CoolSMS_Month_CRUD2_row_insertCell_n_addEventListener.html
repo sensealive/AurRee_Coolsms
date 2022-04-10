@@ -339,32 +339,6 @@
                 setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
             }
             
-            function getReserveCnt(obj){
-                var cnt = 0;
-                for(var i in obj){ // CoolSMS
-                    cnt +=1
-                    // var key = i;
-                    // var val = obj[i];
-                    for(var j in obj[i]){ // 2021_09
-                        // var sub_key1 = j;
-                        // var sub_val1 = obj[i][j];
-                        // for(var k in obj[i][j]){ //2021_0924_1000
-                            // var sub_key2 = k;
-                            // var sub_val2 = obj[i][j][k];
-                            // cnt +=1;
-
-                            // for(var l in obj[i][j][k]){ // cpNo, msgID, name etc etc ..
-                            //     var sub_key3 = l;
-                            //     var sub_val3 = obj[i][j][k][l];
-                            //     document.write(sub_key3 + ": " + sub_val3 + "<br>")
-                            // }
-                        // }
-                    }
-                }
-                console.log("reserveCnt: ", cnt);
-                return cnt;
-            }
-            
             // n은 td의 index값
             function sortTable(n){
                 var table = document.getElementById("rervedTable");
@@ -404,7 +378,33 @@
                     }
                 }                
             }
+            
+            function getReserveCnt(obj){
+                var cnt = 0;
+                for(var i in obj){ // CoolSMS
+                    cnt +=1
+                    // var key = i;
+                    // var val = obj[i];
+                    for(var j in obj[i]){ // 2021_09
+                        // var sub_key1 = j;
+                        // var sub_val1 = obj[i][j];
+                        // for(var k in obj[i][j]){ //2021_0924_1000
+                            // var sub_key2 = k;
+                            // var sub_val2 = obj[i][j][k];
+                            // cnt +=1;
 
+                            // for(var l in obj[i][j][k]){ // cpNo, msgID, name etc etc ..
+                            //     var sub_key3 = l;
+                            //     var sub_val3 = obj[i][j][k][l];
+                            //     document.write(sub_key3 + ": " + sub_val3 + "<br>")
+                            // }
+                        // }
+                    }
+                }
+                console.log("reserveCnt: ", cnt);
+                return cnt;
+            }
+            
             function printValues(obj) {
 
                 for(var k in obj) {
