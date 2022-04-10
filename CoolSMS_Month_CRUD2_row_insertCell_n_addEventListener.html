@@ -326,7 +326,9 @@
                     write.innerHTML ="<h2>" + curYear+"년 " + curMon + "월" +" " + "<input type='date' class='calendar' name='calendar' id='calendar'></H2>";
 
                     tableClear();
-                    printValues(obj);                    
+                    printValues(obj);
+                    
+                    sortTable(3); // date&time 으로 역순 정렬
 
                     // write.innerHTML += tbl;
                     // document.write(tbl);  // 이렇게 하면 화면 다지우고 새로씀.
@@ -361,6 +363,47 @@
                 }
                 console.log("reserveCnt: ", cnt);
                 return cnt;
+            }
+            
+            // n은 td의 index값
+            function sortTable(n){
+                var table = document.getElementById("rervedTable");
+                
+                console.log("n:"+n)
+                for (let i = 1; i < table.rows.length-1; i++) {
+                    
+                    for (let j = i+1; j < table.rows.length; j++) {
+                        r1 = table.getElementsByTagName("tr")[i];
+                        r2 = table.getElementsByTagName("tr")[j];
+
+                        td1 = r1.getElementsByTagName("td")[n];
+                        td2 = r2.getElementsByTagName("td")[n];
+
+                        console.log("td1:" + td1.innerHTML);
+                        console.log("td2:" + td2.innerHTML);
+
+                        // if(td1.innerHTML.toLowerCase() > td2.innerHTML.toLowerCase()){
+                        //     console.log("switch")
+                        //     r2.parentNode.insertBefore(r2, r1);
+                        //     break;
+                        // }
+
+                        // 오름차순이면
+                        // if( isTdSortArr[n]){
+                        //     if(td1.innerHTML.toLowerCase() > td2.innerHTML.toLowerCase()){
+                        //         console.log("switch asc")
+                        //         r2.parentNode.insertBefore(r2, r1);
+                        //     }
+                        // } // 내림차순이면
+                        // else{
+                        if(td1.innerHTML.toLowerCase() < td2.innerHTML.toLowerCase()){
+                            console.log("switch desc")
+                            r2.parentNode.insertBefore(r2, r1);
+                            }
+                        // }                               
+                    }
+                }
+                
             }
 
             function printValues(obj) {
