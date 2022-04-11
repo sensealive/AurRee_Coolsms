@@ -453,6 +453,11 @@
                             var m = obj[k].reserveDate.substr(5,2); // 월
                             var d = obj[k].reserveDate.substr(7,2); // 일
                             var h = obj[k].reserveDate.substr(10,2); // 시
+                            
+                            console.log("iMonth & iDay: ", (iMonth+1) + " & " +(iDay+1) +": " +m+ " & "+d);
+                            if((iMonth+1) == m && (iDay+1) == d){
+                                row.style.backgroundColor = "fdfd96";
+                            }
 
                             // 특정 날짜의 요일
                             week_idx = new Date(Number(y),Number(m) - 1,Number(d)).getDay();
