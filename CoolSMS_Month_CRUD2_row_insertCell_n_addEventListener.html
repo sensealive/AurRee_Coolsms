@@ -512,7 +512,7 @@
                             week_idx = new Date(Number(y),Number(m) - 1,Number(d)).getDay();
                             week = new Array("일", "월", "화", "수", "목", "금", "토");
 
-                            mdhm = m+"월"+ d+"일"+"("+week[week_idx]+") "+ h+"시" +min +"분";
+                            mdhm = m+"월"+ d+"일"+"("+week[week_idx]+") "+"<br>" + h+"시" +min +"분";
                             console.log(mdhm);
                             cell4.innerHTML = mdhm;                            
                             cell5.innerHTML = obj[k].text;                            
