@@ -1,4 +1,4 @@
-﻿<html>
+<html>
     <head>
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -166,6 +166,7 @@
             <option value="30">30</option>
             <option value="31">31</option>
         </select>일
+        <br>
 
         <!-- <label for="time">time:</label> -->
         <select name="time" id="time">
@@ -179,7 +180,18 @@
             <option value="17">17</option>
             <option value="18">18</option>
             <option value="19">19</option>
-        </select>시<br><p>
+        </select>시        
+        
+        <select name="minute" id="minute">
+            <option value="00">00</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+        </select>분
+        
+        <br><p>
 
         이    름: <input type="text" name="name" id="name" value="" style="width:65pt; height:15pt">
         전    화: <input type="text" name="cpNo" id="cpNo" value="" style="width:80pt; height:15pt"><br><br>
@@ -259,6 +271,9 @@
             var reserveCnt = 0;
             var reservePathArr = [];
             var monCnt = 0;
+
+            var jsonArr= new Array();
+            // var jsonArr = [[]];
             // var resourceContainer;
 
             var iYear = new Date().getFullYear();
@@ -308,15 +323,26 @@
 
             function showMonthData(fbMonPath)
             {
-                var preObject = document.getElementById("coolsms_json");  // json 데이터를 받을땐 pre 타입으로 선언이 되어있어야 함
+                
+                var obj = document.getElementById("coolsms_json");  // json 데이터를 받을땐 pre 타입으로 선언이 되어있어야 함
                 var dbRef = firebase.database().ref().child(fbCurMonPath); // Coolsms/2021_09
                 // dbRef.on('value',snap => demo.innerHTML = snap.val());
                 dbRef.on('value',snap => {
                     // preObject.innerText = JSON.stringify(snap.val(),null,3);
-                    preObject = JSON.stringify(snap.val(),null,3);
-                    var obj = JSON.parse(preObject);
+                    obj = JSON.stringify(snap.val(),null,3);
+                    // obj = obj.reverse();
+                    obj = JSON.parse(obj);
+                    // obj = Array.prototype.reverse.call(obj);
+                    // obj = JSON.parse(obj);
                     // console.log("Json 사이즈:" + Object.keys(obj).length); // 이거 안됨..
                     reserveCnt = getReserveCnt(obj);
+
+                    // parseToJsonArry(obj);
+                    // console.log("jsonArr:" + jsonArr.reverse());
+
+
+                    // console.log(obj);
+                    
 
                     // Your web app's Firebase configuration                  
 
@@ -326,9 +352,16 @@
                     write.innerHTML ="<h2>" + curYear+"년 " + curMon + "월" +" " + "<input type='date' class='calendar' name='calendar' id='calendar'></H2>";
 
                     tableClear();
+
+                    // console.log("sorting...");
+                    // obj.sort(function (a, b) {
+                    //     // return a.key.localeCompare(b.key);
+                        
+                    //     console.log(a.keys);
+                    // });
+
                     printValues(obj);
-                    
-                    sortTable(3); // date&time 으로 역순 정렬
+                    sortTable(3); // date&time 내림차순 정렬
 
                     // write.innerHTML += tbl;
                     // document.write(tbl);  // 이렇게 하면 화면 다지우고 새로씀.
@@ -338,12 +371,17 @@
                 // firebase로부터 데이터 받아오는데 걸리는 시간으로 인해 setOnClick() 은 적용하기 어려움
                 setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
             }
-            
+
+            // function appendObjTo(thatArray, newObj) {
+            //     var frozenObj = Object.freeze(newObj);
+            //     return Object.freeze(thatArray.concat(frozenObj));
+            // }
+
             // n은 td의 index값
             function sortTable(n){
                 var table = document.getElementById("rervedTable");
                 
-                console.log("n:"+n)
+                // console.log("n:"+n)
                 for (let i = 1; i < table.rows.length-1; i++) {
                     
                     for (let j = i+1; j < table.rows.length; j++) {
@@ -353,8 +391,8 @@
                         td1 = r1.getElementsByTagName("td")[n];
                         td2 = r2.getElementsByTagName("td")[n];
 
-                        console.log("td1:" + td1.innerHTML);
-                        console.log("td2:" + td2.innerHTML);
+                        // console.log("td1:" + td1.innerHTML);
+                        // console.log("td2:" + td2.innerHTML);
 
                         // if(td1.innerHTML.toLowerCase() > td2.innerHTML.toLowerCase()){
                         //     console.log("switch")
@@ -371,12 +409,25 @@
                         // } // 내림차순이면
                         // else{
                         if(td1.innerHTML.toLowerCase() < td2.innerHTML.toLowerCase()){
-                            console.log("switch desc")
+                            // console.log("switch desc")
                             r2.parentNode.insertBefore(r2, r1);
                             }
                         // }                               
                     }
                 }                
+            }
+
+            function parseToJsonArry(obj)
+            {
+                console.log("parseToJsonArry():");
+                console.log(obj);
+
+                // key값을 배열로
+                console.log(Object.keys(obj)); // [2022_0301_1900, 2022_0406_1100 ...]
+                // value값을 배열로 변경 하는 방법
+                jsonArr = Object.values(Object.values(obj)); //  [ 2022_0301_1900 {...} 부터  2022_0406_1100 {...} 까지 ]
+
+                console.log("jsonArr:", jsonArr.reverse());
             }
             
             function getReserveCnt(obj){
@@ -404,7 +455,7 @@
                 console.log("reserveCnt: ", cnt);
                 return cnt;
             }
-            
+
             function printValues(obj) {
 
                 for(var k in obj) {
@@ -453,9 +504,9 @@
                             var m = obj[k].reserveDate.substr(5,2); // 월
                             var d = obj[k].reserveDate.substr(7,2); // 일
                             var h = obj[k].reserveDate.substr(10,2); // 시
-                            
-                            console.log("iMonth & iDay: ", (iMonth+1) + " & " +(iDay+1) +": " +m+ " & "+d);
-                            
+                            var min = obj[k].reserveDate.substr(12,2); // 분
+
+                            // console.log("iMonth & iDay: ", (iMonth+1) + " & " +(iDay+1) +": " +m+ " & "+d);
                             if((iMonth+1) == m && (iDay+1) == d){
                                 row.style.backgroundColor = "fdfd96";
                             }
@@ -464,9 +515,9 @@
                             week_idx = new Date(Number(y),Number(m) - 1,Number(d)).getDay();
                             week = new Array("일", "월", "화", "수", "목", "금", "토");
 
-                            mdh = m+"월"+ d+"일"+"("+week[week_idx]+") "+ h+"시";
-                            console.log(mdh);
-                            cell4.innerHTML = mdh;                            
+                            mdhm = m+"월"+ d+"일"+"("+week[week_idx]+") "+ h+"시" +min +"분";
+                            console.log(mdhm);
+                            cell4.innerHTML = mdhm;                            
                             cell5.innerHTML = obj[k].text;                            
                             cell6.innerHTML = obj[k].msgID;                            
                             cell7.innerHTML = obj[k].reserveDate;                            
@@ -508,6 +559,7 @@
                 document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
                 // document.getElementById('time').options.selectedIndex = 2;
                 document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                document.getElementById("minute").options.selectedIndex = Number(reserved.substr(12,2)) /10 ; // index값은 00분 0이 되어야함
                 document.getElementById("name").value=name;
                 document.getElementById("cpNo").value=cpNo;        
             }
@@ -555,8 +607,8 @@
             }
 
             function setInputDataByCheckBox(cb){
-                
-                // 이 함수는 당분간 쓰지 않음..
+
+                // 이 함수는 당분간 쓰지 않음
                 return;
 
                 console.log(cb.id);
@@ -574,11 +626,13 @@
                     console.log(Number(reserved.substr(5,2)) - 1);
                     console.log(Number(reserved.substr(7,2)) - 1);
                     console.log(Number(reserved.substr(10,2)) - 10);
+                    console.log(Number(reserved.substr(12,2)) / 10);
 
                     document.getElementById('month').options.selectedIndex = Number(reserved.substr(5,2)) - 1; // 0~11 이므로 -1을 해서 index값으로 만들어줌
                     document.getElementById('day').options.selectedIndex = Number(reserved.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
                     // document.getElementById('time').options.selectedIndex = 2;
                     document.getElementById("time").options.selectedIndex = Number(reserved.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                    document.getElementById("minute").options.selectedIndex = Number(reserved.substr(12,2)) /10; // index값은 00분이 0이 되어야함
                     document.getElementById("name").value=name;
                     document.getElementById("cpNo").value=cpNo;
                 }
@@ -643,6 +697,7 @@
                             document.getElementById('day').options.selectedIndex = Number(this.cells[6].innerHTML.substr(7,2)) -1;  // 1~31 이므로 -1을 해서 index값으로 만들어줌
                             // document.getElementById('time').options.selectedIndex = 2;
                             document.getElementById("time").options.selectedIndex = Number(this.cells[6].innerHTML.substr(10,2)) -10; // index값은 10시가 0이 되어야함
+                            document.getElementById("minute").options.selectedIndex = Number(this.cells[6].innerHTML.substr(12,2)) /10; // index값은 00분이 0이 되어야함
                             document.getElementById("name").value=this.cells[1].innerHTML;
                             document.getElementById("cpNo").value=this.cells[2].innerHTML;
                         };
@@ -703,16 +758,17 @@
                 mm = document.getElementById('month').value;
                 dd = document.getElementById('day').value;
                 tt = document.getElementById('time').value;
+                min = document.getElementById('munite').value;
 
                 curYear = Number(yyyy);
                 curMon = Number(mm);
 
-                childPath = "Coolsms/"+ yyyy+"_"+mm +"/"+  yyyy+"_"+mm +dd +"_"+tt+"00";
+                childPath = "Coolsms/"+ yyyy+"_"+mm +"/"+  yyyy+"_"+mm +dd +"_"+tt + min;
                 console.log(childPath);
 
                 name = document.getElementById("name").value;
                 cpNo = document.getElementById("cpNo").value;
-                reserveDate = yyyy+"_"+mm +dd +"_"+tt+"00";
+                reserveDate = yyyy+"_"+mm +dd +"_"+tt + min;
                 console.log(name );
                 console.log(cpNo);
                 console.log(reserveDate);
