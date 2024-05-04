@@ -104,6 +104,7 @@
         <h1> AurRee Reservation </h1>
         <label for="year">예약일:</label>
         <select class="year"  name="year" id="year">
+        <option value="2020">2020</option>
         <option value="2021">2021</option>
         <option value="2022">2022</option>
         <option value="2023">2023</option>
@@ -199,7 +200,8 @@
         전    화: <input type="text" name="cpNo" id="cpNo" value="" style="width:80pt; height:15pt"><br><br>
 
         <button type="button" onclick="addReservation()" style="width:100pt; height:30pt">예약 추가 & 수정</button>
-        <button type="button" onclick="deleteReservation()" style="width:80pt; height:30pt">삭  제</button><br><br>
+        <button type="button" onclick="deleteReservation()" style="width:80pt; height:30pt">삭  제</button>
+        <button type="button" onclick="retrieveName()" style="width:100pt; height:30pt">이름 검색</button><br><br>
         <button type="button" onclick="prevMonth()" style="width:70pt; height:30pt">Prev</button>
         <button type="button" onclick="curMonth()" style="width:70pt; height:30pt">Cur</button>
         <button type="button" onclick="nextMonth()" style="width:70pt; height:30pt">Next</button><br>
@@ -315,7 +317,7 @@
 
                 // function scriptInit(){
 
-                document.getElementById('year').options.selectedIndex = iYear - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                document.getElementById('year').options.selectedIndex = iYear - 2020; // 현재 2020년 기준이라서 index는 0부터 2020임
                 // document.getElementById("year").value="2022";
                 // document.querySelector(".year").selectedIndex = 3;
                 document.getElementById('month').options.selectedIndex = iMonth; // 0~11 이므로 index로 쓰기 적합^^
@@ -362,16 +364,19 @@
                     //     console.log(a.keys);
                     // });
 
+                    // reserveNo = 1; 
                     printValues(obj);
                     sortTable(3); // date&time 내림차순 정렬
 
                     // write.innerHTML += tbl;
                     // document.write(tbl);  // 이렇게 하면 화면 다지우고 새로씀.
                     reserveNo = 1;
+
+                    // firebase로부터 데이터 받아오는데 걸리는 시간으로 인해 setOnClick() 은 적용하기 어려움
+                    setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
                 });
 
-                // firebase로부터 데이터 받아오는데 걸리는 시간으로 인해 setOnClick() 은 적용하기 어려움
-                setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
+                
             }
 
             // function appendObjTo(thatArray, newObj) {
@@ -459,9 +464,11 @@
             }
 
             function printValues(obj) {
+                console.log("printValues()");
 
                 for(var k in obj) {
                     if(obj[k] instanceof Object) {
+                        console.log("Object~!!");
                         //keys = Object.keys(obj[k]);
                         // var strs = keys.split(',');
                         // document.write(strs);
@@ -532,9 +539,10 @@
                         }
                         printValues(obj[k]);
                     }
-                    //else {
-                    //     document.write(obj[k] + "<br>");
-                    // };
+                    else {
+                        // document.write(obj[k] + "<br>");
+                        console.log("Not Object");
+                    }
                 }
             }
 
@@ -550,7 +558,7 @@
                 cpNo = tr.getElementsByTagName('td')[2].innerHTML;
                 reserved = tr.getElementsByTagName('td')[6].innerHTML;
 
-                document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2020; // 현재 2021년 기준이라서 index는 0부터 2020임
                 // document.getElementById("year").value="2022";
                 // document.querySelector(".year").selectedIndex = 3;
                 console.log(Number(reserved.substr(5,2)) - 1);
@@ -622,7 +630,7 @@
                 reserved = tr.getElementsByTagName('td')[6].innerHTML;
 
                 if(cb.checked){
-                    document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                    document.getElementById('year').options.selectedIndex = Number(reserved.substr(0,4)) - 2020; // 현재 2020년 기준이라서 index는 0부터 2020임
                     // document.getElementById("year").value="2022";
                     // document.querySelector(".year").selectedIndex = 3;
                     console.log(Number(reserved.substr(5,2)) - 1);
@@ -689,7 +697,7 @@
                             // var d = obj[k].reserveDate.substr(7,2); // 일
                             // var h = obj[k].reserveDate.substr(10,2); // 시
                             
-                            document.getElementById('year').options.selectedIndex = Number(this.cells[6].innerHTML.substr(0,4)) - 2021; // 현재 2021년 기준이라서 index는 0부터 2021임
+                            document.getElementById('year').options.selectedIndex = Number(this.cells[6].innerHTML.substr(0,4)) - 2020; // 현재 2020년 기준이라서 index는 0부터 2020임
                             // document.getElementById("year").value="2022";
                             // document.querySelector(".year").selectedIndex = 3;
                             console.log(Number(this.cells[6].innerHTML.substr(5,2)) - 1);
@@ -786,6 +794,138 @@
                 // dbRefObject.child("Coolsms/2020_02/2020_0202_1600").set(null);
                 // tableClear();
             }
+
+            function retrieveName(){
+
+                console.log("retrieveName()");
+                name = document.getElementById("name").value;
+
+                tableClear();
+                showRetrieveData(name);
+                
+            }
+
+            function showRetrieveData(name){
+
+                console.log("showRetrieveData(): " + name);                 
+
+                var cnt = 0;
+                var retrieveObj = {};
+
+                var obj = document.getElementById("coolsms_json");  // json 데이터를 받을땐 pre 타입으로 선언이 되어있어야 함
+                var dbRef = firebase.database().ref(); // Coolsms/
+                // dbRef.on('value',snap => demo.innerHTML = snap.val());
+                dbRef.on('value',snap => {
+                    // preObject.innerText = JSON.stringify(snap.val(),null,3);
+                    obj = JSON.stringify(snap.val(),null,3);
+                    // obj = obj.reverse();
+                    obj = JSON.parse(obj);
+                    // obj = Array.prototype.reverse.call(obj);
+                    // obj = JSON.parse(obj);
+                    // console.log("Json 사이즈:" + Object.keys(obj).length); // 이거 안됨..    
+                    reserveNo = 1; 
+
+                    for(var i in obj){ // CoolSMS
+                        // cnt +=1
+                        // var key = i;
+                        // var val = obj[i];
+                        // console.log("Retrieve Obj: " + obj[i]); 
+                        for(var j in obj[i]){ // 2021_09
+                            var sub_key1 = j;
+                            var sub_val1 = obj[i][j];
+                            // console.log("Retrieve Obj: " + obj[i][j]); 
+
+                            for(var k in obj[i][j]){ //2021_0924_1000
+                                var sub_key2 = k;
+                                var sub_val2 = obj[i][j][k];
+
+                                if(obj[i][j][k]['name'].indexOf(name) != -1){ // 이름을 포함하고 있으면
+                                    // console.log("Retrieve name: " + obj[i][j][k]['name']);
+                                    // console.log("Retrieve cpNo: " + obj[i][j][k]['cpNo']);
+                                    // console.log("Retrieve msgID: " + obj[i][j][k]['msgID']); 
+                                    // console.log("Retrieve reserveDate: " + obj[i][j][k]['reserveDate']); 
+                                    // console.log("Retrieve text: " + obj[i][j][k]['text']); 
+
+                                    // retrieveObj['name'] = obj[i][j][k]['name']
+                                    // retrieveObj['cpNo'] = obj[i][j][k]['cpNo']
+                                    // retrieveObj['msgID'] = obj[i][j][k]['msgID']
+                                    // retrieveObj['reserveDate'] = obj[i][j][k]['reserveDate']
+                                    // retrieveObj['text'] = obj[i][j][k]['text']
+                                    cnt +=1;
+
+                                    row = tbl.insertRow(tbl.rows.length); // 하단에 행 추가
+                                    cell1 = row.insertCell(0);
+                                    cell2 = row.insertCell(1);
+                                    cell3 = row.insertCell(2);
+                                    cell4 = row.insertCell(3);
+                                    cell5 = row.insertCell(4);
+                                    cell6 = row.insertCell(5);
+                                    cell7 = row.insertCell(6);                                    
+
+                                    cell1.innerHTML = "<input type=" + "'checkbox'" + "onClick="  + "setInputDataByCheckBox(this)" + " name="+"'cb'"+ "id="+'check'+reserveNo +">" +reserveNo;
+                                    
+                                    // var chk = document.createElement('input');
+                                    // chk.setAttribute('type', 'checkbox');       // SPECIFY THE TYPE OF ELEMENT.
+                                    // chk.setAttribute('id', 'check'+ reserveNo);     // SET UNIQUE ID.
+                                    // chk.setAttribute('value', 'check'+reserveNo);
+                                    // chk.setAttribute('name', 'check'+ reserveNo);
+                                    // resourceContainer.appendChild(chk);
+
+                                    if(reserveNo == 1){
+                                        reservePathArr = [];
+                                    }
+                                    reservePathArr.push(obj[i][j][k].reserveDate); // 추후 삭제용으로 추가해둠
+                                    reserveNo += 1;
+
+                                    cell2.innerHTML = obj[i][j][k].name;
+                                    cell3.innerHTML = obj[i][j][k].cpNo;
+                                    
+                                    var y = obj[i][j][k].reserveDate.substr(0,4); // 년
+                                    var m = obj[i][j][k].reserveDate.substr(5,2); // 월
+                                    var d = obj[i][j][k].reserveDate.substr(7,2); // 일
+                                    var h = obj[i][j][k].reserveDate.substr(10,2); // 시
+                                    var min = obj[i][j][k].reserveDate.substr(12,2); // 분
+
+                                    // console.log("iMonth & iDay: ", (iMonth+1) + " & " +(iDay+1) +": " +m+ " & "+d);
+                                    if((iMonth+1) == m && (iDay+1) == d){
+                                        row.style.backgroundColor = "fdfd96";
+                                    }
+
+                                    // 특정 날짜의 요일
+                                    week_idx = new Date(Number(y),Number(m) - 1,Number(d)).getDay();
+                                    week = new Array("일", "월", "화", "수", "목", "금", "토");
+
+                                    mdhm = m+"월"+ d+"일"+"("+week[week_idx]+") "+"<br>" + h+"시" +min +"분";
+                                    console.log(mdhm);
+                                    cell4.innerHTML = mdhm;                            
+                                    cell5.innerHTML = obj[i][j][k].text;                            
+                                    cell6.innerHTML = obj[i][j][k].msgID;                            
+                                    cell7.innerHTML = obj[i][j][k].reserveDate;
+
+                                    cell1.addEventListener("click",tdOnClickEvent);
+                                    cell2.addEventListener("click",tdOnClickEvent);
+                                    cell3.addEventListener("click",tdOnClickEvent);
+                                    cell4.addEventListener("click",tdOnClickEvent);
+                                    cell5.addEventListener("click",tdOnClickEvent);
+                                    cell6.addEventListener("click",tdOnClickEvent);
+                                    cell7.addEventListener("click",tdOnClickEvent);
+
+                                // for(var l in obj[i][j][k]){ // cpNo, msgID, name etc etc ..
+                                //     var sub_key3 = l;
+                                //     var sub_val3 = obj[i][j][k][l];
+                                //     document.write(sub_key3 + ": " + sub_val3 + "<br>")
+                                // }
+                                }
+                            }
+                        }
+                    }                    
+
+                    console.log("reserveCnt: ", cnt)
+                    sortTable(6); // date&time 내림차순 정렬
+                    setOnClick(); // Table을 그리고 각행에 onClick 이벤트 셋팅
+
+                });
+            }            
 
             function prevMonth(){           
     
