@@ -696,7 +696,8 @@
                             // var m = obj[k].reserveDate.substr(5,2); // 월
                             // var d = obj[k].reserveDate.substr(7,2); // 일
                             // var h = obj[k].reserveDate.substr(10,2); // 시
-                            
+
+                            /* 날짜와 시간은 안바뀌게, 이름과 연락처만 바뀌게 수정 2025.01.31 
                             document.getElementById('year').options.selectedIndex = Number(this.cells[6].innerHTML.substr(0,4)) - 2020; // 현재 2020년 기준이라서 index는 0부터 2020임
                             // document.getElementById("year").value="2022";
                             // document.querySelector(".year").selectedIndex = 3;
@@ -708,6 +709,8 @@
                             // document.getElementById('time').options.selectedIndex = 2;
                             document.getElementById("time").options.selectedIndex = Number(this.cells[6].innerHTML.substr(10,2)) -10; // index값은 10시가 0이 되어야함
                             document.getElementById("minute").options.selectedIndex = Number(this.cells[6].innerHTML.substr(12,2)) /10; // index값은 00분이 0이 되어야함
+                            */
+                            
                             document.getElementById("name").value=this.cells[1].innerHTML;
                             document.getElementById("cpNo").value=this.cells[2].innerHTML;
                         };
